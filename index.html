@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UBS Evidence Lab｜企業 AI 落地落差、六大障礙與 ROI 量測</title>
+  <style>html,body{margin:0;background:#f6f3ec;color:#12202c;font-family:Georgia,serif}.boot{padding:48px 24px;text-align:center;line-height:1.6}</style>
+</head>
+<body>
+  <p class="boot" id="boot">載入簡報中… Loading briefing…</p>
+  <script>
+  (async () => {
+    const [a, b] = await Promise.all([
+      fetch('data/a.txt').then(r => { if (!r.ok) throw new Error(r.status); return r.text(); }),
+      fetch('data/b.txt').then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    ]);
+    const bin = Uint8Array.from(atob((a + b).replace(/\s+/g,'')), c => c.charCodeAt(0));
+    const html = await new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+    document.open();
+    document.write(html);
+    document.close();
+  })().catch(err => {
+    document.getElementById('boot').innerHTML = 'Unable to expand the page in this browser.<br>Open <a href="https://github.com/Ming050823/ai-roi-briefing">the repository</a> instead.<br><small>' + err + '</small>';
+  });
+  </script>
+</body>
+</html>
