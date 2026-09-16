@@ -3,40 +3,1291 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UBS Evidence Lab｜企業 AI 落地落差、六大障礙與 ROI 量測</title>
+  <title>UBS Evidence Lab｜企業 AI 落地落差、六大障礙與 ROI 量測 / Enterprise AI Adoption Gap, Barriers &amp; ROI</title>
   <style>
-    :root { --ink:#12202c; --paper:#f6f3ec; --accent:#8b1e2d; --line:#d7e0e8; }
-    html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,"Noto Serif TC",serif;}
-    .boot{max-width:720px;margin:12vh auto;padding:0 24px;line-height:1.7;text-align:center;}
-    a{color:#1c4b6e;}
-    .err{margin-top:18px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;text-align:left;font-size:14px;}
-    code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;}
+    :root {
+      --ink: #12202c;
+      --muted: #5b6b78;
+      --line: #d7e0e8;
+      --paper: #f6f3ec;
+      --card: #ffffff;
+      --accent: #8b1e2d;
+      --accent-2: #1c4b6e;
+      --gold: #b0893a;
+      --blue-line: #3d8fd1;
+      --red-line: #8b3a4a;
+      --ok: #2c6b4f;
+      --shadow: 0 10px 30px rgba(18, 32, 44, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Songti TC", "Noto Serif TC", "Noto Serif SC", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #efe6d4 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #e4edf4 0%, transparent 50%),
+        var(--paper);
+      line-height: 1.65;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 22px 80px; }
+    header.hero {
+      background: linear-gradient(165deg, #102030 0%, #1c3a52 55%, #8b1e2d 140%);
+      color: #f4efe6;
+      border-radius: 22px;
+      padding: 36px 36px 28px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      right: -40px; top: -40px;
+      width: 220px; height: 220px;
+      border: 18px solid rgba(255,255,255,.06);
+      border-radius: 50%;
+    }
+    .kicker {
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #d6c39a;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      margin: 0 0 10px;
+    }
+    h1 {
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 1.25;
+      margin: 0 0 12px;
+      font-weight: 650;
+    }
+    .sub { color: #d7e2ea; max-width: 46em; margin: 0; font-size: 16px; }
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 22px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+    }
+    .chip {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .toolbar {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; flex-wrap: wrap;
+      margin: 18px 0 8px;
+    }
+    .lang {
+      display: inline-flex; background: #fff; border: 1px solid var(--line);
+      border-radius: 999px; overflow: hidden;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+    }
+    .lang button {
+      border: 0; background: transparent; padding: 8px 14px; cursor: pointer;
+      color: var(--muted);
+    }
+    .lang button.active { background: var(--ink); color: #fff; }
+    nav.toc {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 20px;
+      box-shadow: var(--shadow);
+    }
+    nav.toc ol { margin: 8px 0 0; padding-left: 20px; }
+    nav.toc a { color: var(--accent-2); text-decoration: none; }
+    nav.toc a:hover { text-decoration: underline; }
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px 30px;
+      margin-top: 18px;
+      box-shadow: var(--shadow);
+    }
+    h2 {
+      font-size: 24px;
+      margin: 0 0 8px;
+      border-bottom: 2px solid #ead9b3;
+      padding-bottom: 8px;
+    }
+    h3 { font-size: 18px; margin: 22px 0 8px; color: var(--accent-2); }
+    h4 { margin: 16px 0 6px; font-size: 16px; }
+    p { margin: 10px 0; }
+    .lede { font-size: 17px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14.5px;
+      margin: 12px 0 18px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      padding: 9px 8px;
+      vertical-align: top;
+    }
+    th { background: #f3eee4; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12px; letter-spacing: .04em; }
+    .note {
+      background: #f7f1e4;
+      border-left: 4px solid var(--gold);
+      padding: 12px 14px;
+      margin: 14px 0;
+      font-size: 15px;
+    }
+    .callout {
+      background: #eef4f8;
+      border-left: 4px solid var(--accent-2);
+      padding: 12px 14px;
+      margin: 14px 0;
+    }
+    .warn {
+      background: #f8eeee;
+      border-left: 4px solid var(--accent);
+      padding: 12px 14px;
+      margin: 14px 0;
+    }
+    code, .mono {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: .92em;
+    }
+    .formula {
+      background: #111b24;
+      color: #e8eef3;
+      padding: 14px 16px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 14px;
+      margin: 12px 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 800px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      header.hero, section { padding: 20px 18px; }
+    }
+    .statrow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+    @media (max-width: 800px) { .statrow { grid-template-columns: 1fr 1fr; } }
+    .stat {
+      background: #f7f4ee;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .stat b { display: block; font-size: 26px; color: var(--accent); line-height: 1.1; }
+    .stat span { font-size: 12px; color: var(--muted); font-family: "Helvetica Neue", Arial, sans-serif; }
+    ol.steps { padding-left: 22px; }
+    ol.steps li { margin: 8px 0; }
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 13px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+    .src { font-size: 13px; color: var(--muted); }
+    [data-lang="en"] .zh, [data-lang="zh"] .en { display: none; }
+    body[data-lang="en"] { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; }
+    .loop {
+      background: #111b24;
+      color: #e7eef4;
+      padding: 16px 18px;
+      border-radius: 12px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
   </style>
 </head>
-<body>
-  <div class="boot" id="boot">
-    <p>載入簡報中… Loading briefing…</p>
+<body data-lang="zh">
+  <div class="wrap">
+    <header class="hero">
+      <p class="kicker">UBS Evidence Lab · Briefing Note</p>
+      <h1 class="zh">企業 AI 落地：預期與現實的落差、<br>六大障礙與 ROI 量測</h1>
+      <h1 class="en">Enterprise AI Adoption: The Expectation Gap,<br>Six Barriers, and How to Measure ROI</h1>
+      <p class="sub zh">根據瑞銀 Evidence Lab 企業調查（Kapteyn，2026 年 5 月），以及後續對六大落地障礙、ROI 基礎框架、深入量測方法論與長期追蹤機制的整理。這份文件彙整完整對話內容，供簡報與內部討論使用。</p>
+      <p class="sub en">Based on the UBS Evidence Lab enterprise survey (Kapteyn, May 2026), plus the six deployment barriers, a base ROI framework, a deeper measurement methodology and a long-term tracking system. This document compiles the full conversation for briefing and internal discussion.</p>
+      <div class="meta">
+        <span class="chip">Figure 1 · Nov 2023 – Mar 2026</span>
+        <span class="chip">n ≈ 139 IT / data leaders · 26 industries</span>
+        <span class="chip">Compiled 2026-09-15</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="lang" role="group" aria-label="Language">
+        <button id="btn-zh" class="active" type="button" onclick="setLang('zh')">中文</button>
+        <button id="btn-en" type="button" onclick="setLang('en')">English</button>
+      </div>
+      <div class="src zh">切換語言不會遺失閱讀位置。</div>
+      <div class="src en">Switching language keeps your place on the page.</div>
+    </div>
+
+    <nav class="toc">
+      <strong class="zh">目錄</strong>
+      <strong class="en">Contents</strong>
+      <ol>
+        <li><a href="#s1"><span class="zh">圖表出處與調查背景</span><span class="en">Source and survey background</span></a></li>
+        <li><a href="#s2"><span class="zh">圖在講什麼：19% vs 43%</span><span class="en">What the chart shows: 19% vs 43%</span></a></li>
+        <li><a href="#s3"><span class="zh">報告核心發現</span><span class="en">Core findings of the note</span></a></li>
+        <li><a href="#s4"><span class="zh">六大落地障礙細節</span><span class="en">The six barriers in detail</span></a></li>
+        <li><a href="#s5"><span class="zh">障礙如何互鎖</span><span class="en">How the barriers lock together</span></a></li>
+        <li><a href="#s6"><span class="zh">如何量測 AI 的 ROI</span><span class="en">How to measure AI ROI</span></a></li>
+        <li><a href="#s7"><span class="zh">90 天起步方法與例子</span><span class="en">90-day start and a worked example</span></a></li>
+        <li><a href="#s9"><span class="zh">深入：ROI 量測方法論</span><span class="en">Deep dive: ROI measurement methods</span></a></li>
+        <li><a href="#s10"><span class="zh">ROI 的長期追蹤機制</span><span class="en">Long-term ROI tracking</span></a></li>
+        <li><a href="#s8"><span class="zh">資料來源與閱讀提示</span><span class="en">Sources and reading notes</span></a></li>
+      </ol>
+    </nav>
+
+    <section id="s1">
+      <h2 class="zh">1. 圖表出處與調查背景</h2>
+      <h2 class="en">1. Source and survey background</h2>
+      <p class="lede zh">圖表標題為 <em>Figure 1: AI enterprise adoption: a gap between expected and actual implementation speed</em>。它不是公開雜誌封面，而是瑞銀客戶研究報告中的附圖。</p>
+      <p class="lede en">The chart is titled <em>Figure 1: AI enterprise adoption: a gap between expected and actual implementation speed</em>. It is not a magazine cover image. It is a figure from a UBS client research note.</p>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">項目</th><th class="en">Item</th>
+            <th class="zh">內容</th><th class="en">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="zh">原始來源</td><td class="en">Primary source</td>
+            <td class="zh">UBS Evidence Lab 企業 AI 調查</td>
+            <td class="en">UBS Evidence Lab enterprise AI survey</td>
+          </tr>
+          <tr>
+            <td class="zh">報告作者</td><td class="en">Author</td>
+            <td class="zh">瑞銀經濟學家 Arend Kapteyn</td>
+            <td class="en">UBS economist Arend Kapteyn</td>
+          </tr>
+          <tr>
+            <td class="zh">對外時間</td><td class="en">Released</td>
+            <td class="zh">約 2026 年 5 月 11 日</td>
+            <td class="en">Around 11 May 2026</td>
+          </tr>
+          <tr>
+            <td class="zh">樣本</td><td class="en">Sample</td>
+            <td class="zh">139 位 IT 高管與資料工程師，26 個行業；受訪者是企業內部推動 AI 落地的核心決策者</td>
+            <td class="en">139 IT executives and data engineers across 26 industries; respondents are the people who actually drive AI implementation</td>
+          </tr>
+          <tr>
+            <td class="zh">圖表註記</td><td class="en">Chart note</td>
+            <td class="zh">Source: UBS Evidence Lab。May-24 的預測來自前 6 個月調查，其餘預測來自前 12 個月調查</td>
+            <td class="en">Source: UBS Evidence Lab. The May-24 prediction used a survey 6 months prior; all other predictions used surveys 12 months prior</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="zh">完整原文通常只發給機構客戶，公開網路上較少完整 PDF。媒體與社群較常見的轉載包括華爾街見聞／追風交易台（2026-05-11）的中文整理，以及 <em>The Economist</em> 記者 Callum Williams（@econcallum）在 2026-05-12 轉貼的同系列圖表。</p>
+      <p class="en">The full note is typically client-only and rarely circulates as a public PDF. Widely cited public write-ups include the WallstreetCN / Zhuifeng desk summary (11 May 2026) and a chart share by <em>The Economist</em> writer Callum Williams (@econcallum) on 12 May 2026.</p>
+      <div class="note zh">這是同一套半年度追蹤調查的最新一波，不是一次性民調。前幾波已出現相近結論：2025 年 10 月調查、12 月見報時，規模化上線約 17%；AI agent 真正規模化約 5%；約六成企業選擇自建或混搭。</div>
+      <div class="note en">This is the latest wave of a semi-annual tracker, not a one-off poll. Earlier waves already pointed the same way: the October 2025 survey (reported in December) had about 17% in production at scale; only about 5% had scaled AI agents; about 60% of firms built in-house or used a hybrid model.</div>
+    </section>
+
+    <section id="s2">
+      <h2 class="zh">2. 圖在講什麼：19% vs 43%</h2>
+      <h2 class="en">2. What the chart shows: 19% vs 43%</h2>
+      <p class="zh">藍線是「已經做到跨多個業務單位、規模化上線」的企業占比；紅線是「一年前大家預期現在會達到」的占比。</p>
+      <p class="en">The blue line is the share of firms that already have AI “in production at scale across multiple business functions and units.” The maroon line is what respondents predicted 12 months earlier.</p>
+      <div class="statrow">
+        <div class="stat"><b>6%</b><span class="zh">2023-11 實際</span><span class="en">Nov-23 actual</span></div>
+        <div class="stat"><b>19%</b><span class="zh">2026-03 實際</span><span class="en">Mar-26 actual</span></div>
+        <div class="stat"><b>43%</b><span class="zh">一年前對 2026-03 的預測</span><span class="en">Prior-year forecast for Mar-26</span></div>
+        <div class="stat"><b>+9pt</b><span class="zh">兩年實際升幅（10%→19%）</span><span class="en">Two-year rise (10% → 19%)</span></div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">時點</th><th class="en">Date</th>
+            <th class="zh">規模化上線（實際）</th><th class="en">In production at scale (actual)</th>
+            <th class="zh">一年前預測（約）</th><th class="en">Predicted 12m earlier (approx.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>2023-11</td><td>Nov-23</td><td>6%</td><td>6%</td><td>—</td><td>—</td></tr>
+          <tr><td>2024-05</td><td>May-24</td><td>10%</td><td>10%</td><td>20%</td><td>20%</td></tr>
+          <tr><td>2024-10</td><td>Oct-24</td><td>11%</td><td>11%</td><td>27%</td><td>27%</td></tr>
+          <tr><td>2025-03</td><td>Mar-25</td><td>14%</td><td>14%</td><td>24%</td><td>24%</td></tr>
+          <tr><td>2025-10</td><td>Oct-25</td><td>17%</td><td>17%</td><td>36%</td><td>36%</td></tr>
+          <tr><td>2026-03</td><td>Mar-26</td><td>19%</td><td>19%</td><td>43%</td><td>43%</td></tr>
+        </tbody>
+      </table>
+      <p class="zh">重點不是「完全沒進展」，而是進展接近線性、很慢：兩年只從 10% 升到 19%，大約每半年多 3 個百分點。模型能力在加速，企業落地沒跟上。</p>
+      <p class="en">The point is not that nothing is happening. Progress is real but almost linear and slow: from 10% to 19% in two years, or about three percentage points every six months. Model capability is compounding. Enterprise deployment is not.</p>
+    </section>
+
+    <section id="s3">
+      <h2 class="zh">3. 報告核心發現</h2>
+      <h2 class="en">3. Core findings of the note</h2>
+
+      <h3 class="zh">3.1 企業系統性高估自己的落地速度</h3>
+      <h3 class="en">3.1 Firms systematically overestimate their own speed</h3>
+      <p class="zh">一年前同一批受訪者被問「多久能規模化」時：</p>
+      <p class="en">A year earlier, the same respondent pool was asked how long it would take to reach scaled deployment:</p>
+      <ul>
+        <li class="zh">10% 說 3 個月內；19% 說 6 個月內；13% 說 9 個月內；43% 說 12 個月內</li>
+        <li class="en">10% said within 3 months; 19% within 6; 13% within 9; 43% within 12 months</li>
+      </ul>
+      <p class="zh">合計 <strong>84% 認為自己一年內能做到</strong>。一年後真正跨過門檻的只有約 <strong>5%</strong>。報告寫明：這種樂觀偏差每一輪調查都出現，而且預期與現實的落差還在擴大。圖中紅藍兩條線越拉越開，就是這件事。</p>
+      <p class="en">In total, <strong>84% expected to get there within a year</strong>. About <strong>5%</strong> actually crossed the threshold. The note says this optimism bias appears in every wave, and the gap is still widening. That is what the diverging lines on Figure 1 are showing.</p>
+
+      <h3 class="zh">3.2 六大障礙一覽</h3>
+      <h3 class="en">3.2 The six barriers at a glance</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th class="zh">障礙</th><th class="en">Barrier</th>
+            <th class="zh">占比</th><th class="en">Share</th>
+            <th class="zh">走勢</th><th class="en">Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td class="zh">ROI 不清晰</td><td class="en">Unclear ROI</td><td>53%</td><td>53%</td><td class="zh">持續第一；2025-10 一波曾到 59%</td><td class="en">Consistently #1; hit 59% in the Oct-2025 wave</td></tr>
+          <tr><td>2</td><td class="zh">合規與監管</td><td class="en">Compliance and regulation</td><td>48%</td><td>48%</td><td class="zh">高位穩定</td><td class="en">Stuck at a high level</td></tr>
+          <tr><td>3</td><td class="zh">集成複雜度</td><td class="en">Integration complexity</td><td>45%</td><td>45%</td><td class="zh">前兩輪約 37–38%，本輪明顯上升</td><td class="en">Rose from ~37–38% in the prior two waves</td></tr>
+          <tr><td>4</td><td class="zh">合格人才短缺</td><td class="en">Shortage of qualified talent</td><td>42%</td><td>42%</td><td class="zh">高位穩定</td><td class="en">Stuck at a high level</td></tr>
+          <tr><td>5</td><td class="zh">資料可用性與品質</td><td class="en">Data availability and quality</td><td>42%</td><td>42%</td><td class="zh">與人才並列</td><td class="en">Tied with talent</td></tr>
+          <tr><td>6</td><td class="zh">資料隱私</td><td class="en">Data privacy gaps</td><td>37%</td><td>37%</td><td class="zh">單獨列出，與合規部分重疊</td><td class="en">Listed separately; overlaps with compliance</td></tr>
+        </tbody>
+      </table>
+      <div class="warn zh">唯一被瑞銀點名「在惡化」的是第 3 項：企業越往前推，越發現把 AI 嵌進現有系統比想像中難。其餘五項不是新問題，而是試點階段被低估、一進生產就被放大。</div>
+      <div class="warn en">The only item UBS flags as getting worse is #3. The further firms push, the more they discover that embedding AI in live systems is harder than expected. The other five are not new; they were under-counted in pilots and inflate in production.</div>
+
+      <h3 class="zh">3.3 對市場的含義</h3>
+      <h3 class="en">3.3 What it means for markets</h3>
+      <p class="zh">市場對 AI 的定價，很多建立在「企業會很快大規模採用」上。這份調查認為這個假設本身就被高估了，而且企業自己也在高估。技術可用 ≠ 企業規模化落地。中間還隔著 ROI 驗證、系統集成、人才、合規。模型變強，這些障礙不會自動消失。對投資人來說，要分開看「AI 能力進步速度」和「AI 商業落地速度」。</p>
+      <p class="en">A lot of AI pricing assumes enterprises will scale quickly. This survey says that assumption is itself inflated — and that firms inflate it about themselves. “The model works” is not “the firm has scaled.” ROI proof, integration, talent and compliance sit in between. Stronger models do not dissolve those barriers. Investors need to separate the speed of capability gains from the speed of commercial deployment.</p>
+      <p class="zh">2026 年 2 月 Kapteyn 也用同一套數據反駁「美國生產率上升已經能用 AI 普及解釋」：當時仍有八成以上企業未把 AI 真正嵌進生產流程，資本支出與招聘行為也還沒出現對應轉向。</p>
+      <p class="en">In February 2026 Kapteyn used the same series to reject the claim that a US productivity uptick already proved widespread AI deployment: more than 80% of firms had still not embedded AI in production processes, and capex and hiring had not shifted in a matching way.</p>
+    </section>
+
+    <section id="s4">
+      <h2 class="zh">4. 六大落地障礙細節</h2>
+      <h2 class="en">4. The six barriers in detail</h2>
+      <p class="zh">這六項不是六個獨立問題，而是同一條「試點 → 規模化」路徑上的連續卡點。</p>
+      <p class="en">These are not six separate problems. They are consecutive choke points on the same pilot-to-scale path.</p>
+
+      <h3 class="zh">4.1 ROI 不清晰（53%）——不是「沒效益」，是「算不出、對不上、批不下去」</h3>
+      <h3 class="en">4.1 Unclear ROI (53%) — not “no benefit,” but “cannot price it, cannot map it, cannot fund it”</h3>
+      <p class="zh">這是整份調查最穩定的第一名。2025 年 3 月約 50%，10 月升到 59%，2026 年 3 月回落到 53%，始終壓過技術問題。</p>
+      <p class="en">This is the most stable number-one item. It was about 50% in March 2025, 59% in October 2025, and 53% in March 2026 — always above purely technical issues.</p>
+      <p class="zh">現場常見三種算帳失敗：</p>
+      <p class="en">Three kinds of accounting failure show up in practice:</p>
+      <ul>
+        <li class="zh"><strong>試點指標和財報指標對不上。</strong>回覆速度、補全接受率、會議摘要使用量很好看，但 CFO 要的是單位成本、週轉、客訴、毛利。IBM 後來量到企業 AI 平均 ROI 約 5.9%，低於多數公司約 10% 的資金成本，正是「有活動、沒利潤」。</li>
+        <li class="en"><strong>Pilot metrics do not map to financial statements.</strong> Reply speed, autocomplete accept rates and meeting-summary usage look strong; CFOs want unit cost, cycle time, complaints and margin. IBM later put average enterprise AI ROI near 5.9%, below a typical ~10% cost of capital — activity without profit.</li>
+        <li class="zh"><strong>成本結構被低估。</strong>試點只算 API／token；規模化還要算資料清洗、權限、監控、人審、事故、合規、舊系統改造。Bain 2026 年發現不少公司用「上一輪自動化省下來的錢」去養下一輪 AI，但上一輪本來就低於預期。</li>
+        <li class="en"><strong>The cost stack is under-counted.</strong> Pilots price APIs and tokens. Scale also prices cleaning, permissions, monitoring, human review, incidents, compliance and legacy rewiring. Bain’s 2026 work found many firms funding the next AI wave from prior automation savings that had already missed target.</li>
+        <li class="zh"><strong>時間窗錯了。</strong>能算出帳的專案通常要 6–12 個月才看得到穩定效益，董事會卻用 1–2 個季度的試點數字決定加碼。紅線（一年前 84% 自以為一年內能規模化）本質上也是 ROI 樂觀：把「模型能做」當成「公司能賺錢」。</li>
+        <li class="en"><strong>The time window is wrong.</strong> Projects that can be priced usually need 6–12 months before the benefit stabilises; boards often decide from one or two pilot quarters. The maroon line — 84% expecting scale inside a year — is ROI optimism in another form: treating “the model can do it” as “the firm will make money.”</li>
+      </ul>
+      <div class="callout zh">本質：衡量體系還沒從「模型演示」換成「流程單位經濟」。沒有這套帳，後續五項再怎麼改善，預算仍會在規模化門口停住。</div>
+      <div class="callout en">The real issue: measurement has not moved from model demos to workflow unit economics. Without that ledger, fixing the other five barriers still leaves budget stuck at the scale gate.</div>
+
+      <h3 class="zh">4.2 合規與監管（48%）——審批節奏比模型迭代慢一個數量級</h3>
+      <h3 class="en">4.2 Compliance and regulation (48%) — approval cycles lag model cycles by an order of magnitude</h3>
+      <p class="zh">IT 與資料工程決策者碰到的不是「有沒有 AI 法案」這種標題，而是日常過不了關：模型能不能碰客戶個資與交易資料；輸出要不要可解釋、要不要留審計軌跡；跨境資料能不能進哪一家雲、哪一個模型；agent 一旦能自行改訂單、發郵件、調權限，責任算誰的。</p>
+      <p class="en">IT and data leaders are not mainly debating the existence of an AI Act. They are failing day-to-day gates: whether a model may touch customer or transaction data; whether outputs must be explainable and auditable; which cloud and which model may receive cross-border data; and who is accountable when an agent can change an order, send mail, or alter permissions.</p>
+      <p class="zh">一個 demo 兩週能做完；同一套東西進生產，法務、資安、模型風險、採購、內審可能要排 4–6 個月。買方研究機構 2026 年對大型資產管理公司的調查也顯示：把研究資料接進內部 AI，最大障礙是授權與合規資格（約 69%、54%），不是模型本身。</p>
+      <p class="en">A demo can ship in two weeks. The same system in production can spend 4–6 months in legal, security, model risk, procurement and audit. A 2026 buy-side study of large asset managers found the top barriers to feeding research into internal AI were licensing and compliance entitlements (~69% and ~54%), not the model.</p>
+      <p class="zh">還有結構問題：企業 AI 用得越廣，合規部門自己用 AI 的成熟度越跟不上。有研究寫過，企業已「廣泛或進階採用 AI」的約 67%，合規職能自己達到同等水準的只有 22%。審核者比被審核者更慢，閘門就會越拉越緊。</p>
+      <p class="en">There is also a structural lag: the more widely the enterprise uses AI, the further compliance itself falls behind. One study found about 67% of organisations at broad or advanced enterprise AI adoption, versus 22% of ethics-and-compliance functions at the same level. When reviewers are slower than the reviewed, gates tighten.</p>
+      <p class="zh"><strong>合規是「能不能上線、誰簽字」；隱私是「資料能不能進模型」。一個卡流程，一個卡原料。</strong></p>
+      <p class="en"><strong>Compliance is “may this go live, and who signs.” Privacy is “may this data enter the model.” One blocks process; the other blocks feedstock.</strong></p>
+
+      <h3 class="zh">4.3 集成複雜度（45%，前兩輪 37–38%）——唯一明顯惡化的一項</h3>
+      <h3 class="en">4.3 Integration complexity (45%, up from 37–38%) — the only item clearly getting worse</h3>
+      <p class="zh">前兩輪很多人還在做獨立聊天視窗、獨立 Copilot；這一輪開始要把 AI 接進 ERP、CRM、核心交易、工單、權限系統，複雜度才真正露面。「集成」通常裂成四層，任何一層沒接上，試點都過不了生產：</p>
+      <p class="en">Earlier waves were still full of standalone chat windows and copilots. This wave is about wiring AI into ERP, CRM, core transactions, tickets and permission systems. That is when complexity appears. Integration usually splits into four layers; miss any one and the pilot dies in production:</p>
+      <ol>
+        <li class="zh"><strong>系統層：</strong>舊核心沒有穩定 API，試點用整理過的沙盒，生產面對不一致的 schema 與延遲。</li>
+        <li class="en"><strong>Systems:</strong> legacy cores lack stable APIs; pilots run on cleaned sandboxes; production faces inconsistent schemas and latency.</li>
+        <li class="zh"><strong>流程層：</strong>AI 輸出之後，人怎麼接、例外怎麼升、錯了怎麼回滾。把 agent 接到工作流，不是把模型掛在舊流程旁邊，而是整段流程要重畫。</li>
+        <li class="en"><strong>Process:</strong> after the model writes, who picks up, how exceptions escalate, how errors roll back. Wiring an agent into a workflow is not hanging a model beside the old process; the process itself has to be redrawn.</li>
+        <li class="zh"><strong>權限層：</strong>人有角色權限；模型預設「什麼都看得到」。一上生產就要做欄位級、文件級、客戶級隔離。</li>
+        <li class="en"><strong>Permissions:</strong> people have roles; models default to seeing everything. Production needs field-, document- and customer-level isolation.</li>
+        <li class="zh"><strong>組織層：</strong>IT 能上線工具，業務不改考核、不改 SOP，使用率會停在「偶爾試試看」。</li>
+        <li class="en"><strong>Organisation:</strong> IT can ship a tool; if the business does not change incentives and SOPs, usage stalls at “we tried it once.”</li>
+      </ol>
+      <p class="zh">Alteryx 2026 年調查把「無法嵌入既有系統與工作流」列為試點轉生產的第一障礙（52%）。占比會升，是因為「已經開始認真推」的公司變多了。沒推的人覺得集成不難；推到一半的人才會把它勾成障礙。Bain 也觀察到：達標的公司反而更常把「資料取得與整合」列為最大牆——不是他們比較差，是他們撞牆撞得更前面。</p>
+      <p class="en">Alteryx’s 2026 survey put “cannot embed into existing systems and workflows” as the top barrier from pilot to production (52%). The share rises because more firms are now pushing in earnest. Firms that have not pushed still think integration is easy; firms halfway through tick the box. Bain saw the same pattern: firms that hit targets cite data access and integration more often — not because they are weaker, but because they hit the wall earlier.</p>
+      <p class="zh">這也解釋圖上那條幾乎直線的藍線：每半年只有約 3% 的公司跨過門檻，卡的就是這層工程與組織改造，不是下一個模型版本。</p>
+      <p class="en">That is also why the blue line is almost straight: only about 3% of firms cross the threshold each half-year. The bind is engineering and organisational rewiring, not the next model version.</p>
+
+      <h3 class="zh">4.4 合格人才短缺（42%）——缺的不是「會寫 prompt 的人」</h3>
+      <h3 class="en">4.4 Talent shortage (42%) — not a shortage of people who can write prompts</h3>
+      <p class="zh">缺的通常是三種很難同時存在的人：能把業務問題拆成可上線系統的人（產品＋工程＋領域）；能把髒資料、權限、評估、監控做成平台的人（MLOps／資料平台）；能在業務側改流程、扛結果的人（領域專家，不是 IT）。</p>
+      <p class="en">What is scarce is three profiles that rarely exist in one person: someone who can turn a business problem into a production system (product + engineering + domain); someone who can turn dirty data, permissions, evaluation and monitoring into a platform (MLOps / data platform); and someone on the business side who will redesign the process and own the outcome (a domain owner, not IT).</p>
+      <p class="zh">2025 年 10 月那波瑞銀調查裡，約 60% 企業選擇自建或混搭。自建直接把人才缺口放大：買現成至少把一部分工程外包出去；自建等於自己養整合、治理、評估團隊。許多公司的應對卻是「開課提高 AI 素養」，而不是改職位設計。結果是人人都會用 Copilot，但沒有人負責把某個端到端流程從「人做」改成「人＋系統做」。</p>
+      <p class="en">In the October 2025 UBS wave, about 60% of firms built in-house or used a hybrid model. Building in-house widens the talent gap: buying off the shelf outsources some engineering; building means you staff integration, governance and evaluation yourself. Many firms respond with fluency courses rather than job redesign. Everyone can use a copilot; nobody owns turning an end-to-end process from “done by people” into “done by people plus a system.”</p>
+      <p class="zh">人才短缺和 ROI 互鎖：算不清帳就不敢開正式編制；沒有正式編制就繼續靠專案組打游擊；游擊隊做得出 demo，做不出可維運的生產系統。瑞銀 2026 年 2 月筆記也用「招聘行為沒有明顯轉向」反證：如果真的在規模化，勞動力結構應該先動。</p>
+      <p class="en">Talent and ROI lock together: if the ledger is unclear, headcount is not opened; without headcount, work stays in guerrilla project teams; guerrilla teams can demo, they cannot run production. Kapteyn’s February 2026 note used “no clear shift in hiring” as counter-evidence: if scale were real, labour mix would move first.</p>
+
+      <h3 class="zh">4.5 資料可用性與品質（42%）——生產和試點用的不是同一份資料</h3>
+      <h3 class="en">4.5 Data availability and quality (42%) — production and the pilot are not using the same data</h3>
+      <p class="zh">試點資料範圍小、有人清過、允許錯、不接即時系統。生產資料分散在十幾個系統、定義不一致、時效不同、缺值有業務含義、權限割裂。所以「資料問題」通常不是「沒有大數據」，而是四件事同時成立：找不到、對不上、不能用、進不去。</p>
+      <p class="en">Pilot data is narrow, cleaned, allowed to be wrong, and disconnected from live systems. Production data sits in a dozen systems, with inconsistent definitions, mismatched freshness, missingness that means something, and fractured permissions. So “the data problem” is rarely “we lack big data.” It is four things at once: cannot find it, cannot join it, cannot trust it for action, cannot legally send it.</p>
+      <p class="zh">McKinsey 對 agentic AI 的判斷很硬：約八成企業把「資料限制」列為規模化最大障礙，不是模型。Teradata 2026 年更具體：77% 的主管說，企業裡只有不到 20% 的資料和知識，可靠到能讓 agent 據此行動。這就是為什麼 Copilot 類「輔助寫字」容易鋪開，訂單／理賠／調度類「自動做事」極難鋪開。</p>
+      <p class="en">McKinsey has been blunt on agents: about eight in ten firms name data limits, not models, as the binding constraint on scale. Teradata in 2026 was more specific: 77% of leaders said 20% or less of enterprise data and knowledge is reliable enough for an agent to act on. That is why writing copilots spread and why order / claims / scheduling agents do not.</p>
+
+      <h3 class="zh">4.6 資料隱私（37%）——原料被鎖在合規櫃裡</h3>
+      <h3 class="en">4.6 Data privacy (37%) — the feedstock is locked in the compliance cabinet</h3>
+      <p class="zh">現場典型情況：客戶合約、員工檔、原始交易不能進公有雲大模型；可以進，但必須先去識別，去識別後效果掉一截，ROI 更難看；供應商條款禁止把內容用於訓練，卻說不清推理快取算不算訓練；模型輸出可能把 A 客戶的內容帶進 B 客戶的回答。</p>
+      <p class="en">Typical cases: contracts, employee files and raw transactions cannot enter a public frontier model; they can enter only after de-identification, which weakens performance and makes ROI worse; vendor terms forbid training use but leave inference caches ambiguous; outputs can leak Client A into Client B’s answer.</p>
+      <p class="zh">這會把企業推進兩條貴且慢的路：自建／私有化部署，或在資料倉上只做「摘要級」應用。兩條路都會拉高集成成本和人才需求，並讓「規模化」定義變窄——很多公司最後只敢上內部 IT 客服、寫文件、寫程式，不敢上核心客戶流程。瑞銀前一波調查裡，內部 IT help desk 的 AI 需求（約 75%）明顯高於外部客服（約 52%），和隱私邊界高度一致。</p>
+      <p class="en">That pushes firms onto two expensive, slow paths: private / self-hosted deployment, or summary-only use on top of the warehouse. Both raise integration cost and talent demand, and they narrow what “scale” means — many firms end up on internal IT help desks, drafting and coding, and stay off core customer flows. In an earlier UBS wave, demand for AI on the internal IT help desk (~75%) ran well ahead of external customer support (~52%), which tracks the privacy boundary.</p>
+    </section>
+
+    <section id="s5">
+      <h2 class="zh">5. 障礙如何互鎖</h2>
+      <h2 class="en">5. How the barriers lock together</h2>
+      <p class="zh">讀這張清單時，不要把它們當六個並列選項。比較接近的因果是：</p>
+      <p class="en">Do not read the list as six parallel options. The more useful causal chain is:</p>
+      <div class="loop zh">資料品質差 + 隱私限制
+        ↓
+能做的場景變窄、效果不穩
+        ↓
+ROI 算不清 → 預算與編制開不出來
+        ↓
+人才只能打游擊 → 集成做不深
+        ↓
+一碰核心系統，合規把關更嚴
+        ↓
+繼續停在試點，紅線預期卻年年上修</div>
+      <div class="loop en">Poor data quality + privacy limits
+        ↓
+Narrower use cases, unstable quality
+        ↓
+ROI stays unpriced → budget and headcount stay closed
+        ↓
+Talent stays in guerrilla teams → integration stays shallow
+        ↓
+Touching core systems tightens compliance gates
+        ↓
+Work remains in pilot while the maroon forecast is revised up every year</div>
+      <p class="zh">這條環對上圖：藍線兩年只走 9 個百分點，紅線卻可以畫到 43%。障礙不是「模型不夠聰明」，是企業每往核心流程走一步，這六項會同時變重。集成複雜度從 37–38% 升到 45%，就是環在收緊的信號——更多公司已經走出「聊天視窗階段」，開始撞牆。</p>
+      <p class="en">The loop matches the chart: the blue line moves nine points in two years while the maroon line can be drawn at 43%. The bind is not “the model is not smart enough.” Each step toward a core process makes all six heavier at once. Integration complexity rising from 37–38% to 45% is the signal that the loop is tightening — more firms have left the chat-window stage and hit the wall.</p>
+      <h3 class="zh">若只排「先動哪一項最可能鬆開整條鏈」</h3>
+      <h3 class="en">If you can move only a few things, start here</h3>
+      <ol class="steps">
+        <li class="zh">先把成功定義改成流程單位經濟（解開 ROI）</li>
+        <li class="en">Redefine success as workflow unit economics (unlock ROI)</li>
+        <li class="zh">先打通 1–2 條有權限、有品質的資料路徑（解開資料＋隱私的最小集合）</li>
+        <li class="en">Open one or two permissioned, good-enough data paths (the minimum set of data + privacy)</li>
+        <li class="zh">只在這條路徑上做深度集成，而不是再開 20 個試點（控制集成複雜度）</li>
+        <li class="en">Integrate deeply on that path instead of opening 20 more pilots (contain integration complexity)</li>
+        <li class="zh">合規前置成這條路徑的標準作業，而不是每個專案重審一次</li>
+        <li class="en">Turn compliance into standard work on that path, not a fresh review for every project</li>
+        <li class="zh">編制跟這條路徑走，而不是先招一個「AI 團隊」再找事做</li>
+        <li class="en">Let headcount follow that path; do not hire an “AI team” and then look for work</li>
+      </ol>
+    </section>
+
+    <section id="s6">
+      <h2 class="zh">6. 如何量測 AI 的 ROI</h2>
+      <h2 class="en">6. How to measure AI ROI</h2>
+      <p class="lede zh">瑞銀把「ROI 不清晰」排第一，不是因為公式難寫，而是大多數公司量錯了單位。McKinsey 2026 年調查裡，八成人說 AI 讓自己更有效率，但只有 37% 能把影響接到 EBIT，能把 EBIT 的 5% 以上歸因於 AI 的只有約 6%。個人有感、公司沒帳，就是量測失敗。</p>
+      <p class="lede en">UBS ranks “unclear ROI” first not because the formula is hard, but because most firms measure the wrong unit. In McKinsey’s 2026 survey, eight in ten people said AI made them more productive, yet only 37% could attach any EBIT effect, and only about 6% could attribute 5% or more of EBIT to AI. Individual sensation without a corporate ledger is a measurement failure.</p>
+      <div class="callout zh"><strong>核心原則：</strong>不要量工具，要量「一筆被接受的完成工作」花了多少錢、換回多少錢。</div>
+      <div class="callout en"><strong>Core rule:</strong> do not measure the tool. Measure what one accepted completed job costs, and what it returns.</div>
+
+      <h3 class="zh">6.1 先改單位，再算百分比</h3>
+      <h3 class="en">6.1 Change the unit before you compute a percentage</h3>
+      <p class="zh">錯誤單位：prompt 次數、座位數、token 費、滿意度問卷、「我覺得省了 30 分鐘」。正確單位：一張發票、一張工單、一份合約、一次理賠、一次程式變更、一通已解決的客服。</p>
+      <p class="en">Wrong units: prompt counts, seats, token bills, satisfaction surveys, “I feel I saved 30 minutes.” Right units: one invoice, one ticket, one contract, one claim, one code change, one resolved customer case.</p>
+      <div class="formula">ROI = (V − C) / C</div>
+      <p class="zh">難的是 V 和 C 都必須落在同一條工作流上。更好用的日常指標不是年度 ROI，而是：</p>
+      <p class="en">The hard part is that both V and C must sit on the same workflow. A more useful daily metric than annual ROI is:</p>
+      <div class="formula">cost per accepted outcome = fully loaded workflow cost / number of accepted completions</div>
+      <p class="zh">「被接受」三個字最重要：生成了但不被採用、要重做、要人改半小時，都不能算完成。Cost per token 回答「系統處理了什麼」；cost per accepted outcome 回答「系統做成了什麼」。</p>
+      <p class="en">“Accepted” is the word that matters. Generated-but-unused, reworked, or edited for half an hour does not count as done. Cost per token answers what the system processed. Cost per accepted outcome answers what the system finished.</p>
+
+      <h3 class="zh">6.2 成本 C：多數公司少算 40–60%</h3>
+      <h3 class="en">6.2 Cost C: most firms under-count by 40–60%</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">層</th><th class="en">Layer</th>
+            <th class="zh">算什麼</th><th class="en">What to include</th>
+            <th class="zh">常見漏項</th><th class="en">Common misses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="zh">模型與推論</td><td class="en">Model / inference</td><td class="zh">token、GPU、預留吞吐、重試</td><td class="en">tokens, GPUs, provisioned throughput, retries</td><td class="zh">失敗重跑、長 context、多模型路由</td><td class="en">failed reruns, long context, multi-model routing</td></tr>
+          <tr><td class="zh">平台與授權</td><td class="en">Platform / licences</td><td class="zh">Copilot／agent 平台、向量庫、閘道</td><td class="en">copilot / agent platforms, vector stores, gateways</td><td class="zh">影子 IT 的個人訂閱</td><td class="en">shadow-IT personal subscriptions</td></tr>
+          <tr><td class="zh">資料</td><td class="en">Data</td><td class="zh">清洗、標註、權限、同步</td><td class="en">cleaning, labelling, permissions, sync</td><td class="zh">持續維護，不是一次性</td><td class="en">ongoing upkeep, not a one-off</td></tr>
+          <tr><td class="zh">集成</td><td class="en">Integration</td><td class="zh">API、工作流編排、舊系統改造</td><td class="en">APIs, orchestration, legacy rewiring</td><td class="zh">內部工程師時間</td><td class="en">internal engineering time</td></tr>
+          <tr><td class="zh">人審與例外</td><td class="en">Human review</td><td class="zh">抽檢、覆核、升級處理</td><td class="en">sampling, review, escalation</td><td class="zh">高薪人員的隱性工時</td><td class="en">hidden hours of expensive staff</td></tr>
+          <tr><td class="zh">治理</td><td class="en">Governance</td><td class="zh">評估集、監控、合規審查、事故</td><td class="en">eval sets, monitoring, compliance review, incidents</td><td class="zh">法務／資安排程</td><td class="en">legal / security calendar time</td></tr>
+          <tr><td class="zh">變革</td><td class="en">Change</td><td class="zh">培訓、SOP 改寫、推廣</td><td class="en">training, SOP rewrite, adoption</td><td class="zh">上線後 3–6 個月的採用成本</td><td class="en">adoption cost in months 3–6</td></tr>
+        </tbody>
+      </table>
+      <p class="zh">風險調整後再報一次，避免把不穩的產出當成現金：</p>
+      <p class="en">Report a risk-adjusted figure as well, so unstable output is not treated as cash:</p>
+      <div class="formula">V_adjusted = V_gross × (1 − r_hallucination − r_override − r_rework)</div>
+      <p class="zh">幻覺率 8%、覆寫率 20%，毛效益就要先打七折再跟成本比。</p>
+      <p class="en">An 8% hallucination rate and a 20% override rate means you discount gross benefit by about 28% before comparing it with cost.</p>
+
+      <h3 class="zh">6.3 效益 V：五類，只有接到帳本才算</h3>
+      <h3 class="en">6.3 Value V: five types, and only what hits the books counts</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">類型</th><th class="en">Type</th>
+            <th class="zh">能量成錢的條件</th><th class="en">When it becomes money</th>
+            <th class="zh">怎麼量</th><th class="en">How to measure</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="zh">避開的成本</td><td class="en">Avoided cost</td><td class="zh">加班、外包、罰款、重工真的下降</td><td class="en">overtime, contractors, fines, rework actually fall</td><td class="zh">上線前後費用科目對比</td><td class="en">expense lines before vs after</td></tr>
+          <tr><td class="zh">未招募的人力</td><td class="en">Headcount avoided</td><td class="zh">業務量升了但編制沒加</td><td class="en">volume rises without added posts</td><td class="zh">產能缺口 × 全負載年薪</td><td class="en">capacity gap × fully loaded salary</td></tr>
+          <tr><td class="zh">週期變短</td><td class="en">Shorter cycle</td><td class="zh">縮短的時間變成吞吐或收入</td><td class="en">saved time becomes throughput or revenue</td><td class="zh">週期 × 單件毛利或產能</td><td class="en">cycle × unit margin or capacity</td></tr>
+          <tr><td class="zh">錯誤下降</td><td class="en">Fewer errors</td><td class="zh">有歷史單件錯誤成本</td><td class="en">a historical cost per error exists</td><td class="zh">Δ錯誤率 × 單件損失 × 量</td><td class="en">Δ error rate × loss per error × volume</td></tr>
+          <tr><td class="zh">新增收入</td><td class="en">New revenue</td><td class="zh">能做對照組</td><td class="en">a control group is possible</td><td class="zh">AI 組 vs 對照組的轉換／客單／留存</td><td class="en">conversion / basket / retention vs control</td></tr>
+        </tbody>
+      </table>
+      <div class="warn zh">最容易造假的是「省下的工時」。工時要同時滿足三件事才進 V：用系統紀錄而不是問卷；算的是「被接受輸出」的時間，不是「模型生成」的時間；省下的時間有去處（多處理件數、少加班、少外包，或明確轉去做更高價值工作）。AI 3 分鐘生成、人 3 小時修改，淨效益是負的。</div>
+      <div class="warn en">The easiest number to fake is “hours saved.” Hours enter V only if three things are true: they come from system logs, not surveys; they measure time-to-accepted-output, not time-to-generation; and the hours go somewhere (more units, less overtime, fewer contractors, or a named higher-value task). If the model writes in three minutes and a person repairs for three hours, net benefit is negative.</div>
+
+      <h3 class="zh">6.4 上線前一定要有基線</h3>
+      <h3 class="en">6.4 You must have a baseline before go-live</h3>
+      <p class="zh">每條要規模化的工作流，上線前至少鎖四個基線，用 4–8 週營運數據，不要用主管估計：週期時間；一次通過率／錯誤率／重工率；單件全負載成本；單位時間吞吐。沒有基線，就沒有反事實。</p>
+      <p class="en">For every workflow you intend to scale, lock four baselines from 4–8 weeks of operational data, not manager estimates: cycle time; first-pass / error / rework rate; fully loaded cost per unit; throughput per unit time. No baseline means no counterfactual.</p>
+      <ul>
+        <li class="zh">能切流量：A/B 或分批上線</li>
+        <li class="en">If you can split traffic: A/B or staged rollout</li>
+        <li class="zh">不能切：上線前後＋控制同期其他變化（旺季、新人、流程改版）</li>
+        <li class="en">If you cannot: before/after plus controls for concurrent changes (season, new hires, process rewrites)</li>
+        <li class="zh">高風險決策：人機對照，記錄覆寫原因</li>
+        <li class="en">High-stakes decisions: human–machine paired review, with override reasons logged</li>
+      </ul>
+
+      <h3 class="zh">6.5 按場景用不同帳</h3>
+      <h3 class="en">6.5 Use different ledgers for different use-case types</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">類型</th><th class="en">Type</th>
+            <th class="zh">例子</th><th class="en">Examples</th>
+            <th class="zh">主要量法</th><th class="en">Primary measure</th>
+            <th class="zh">常見回收期</th><th class="en">Typical payback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="zh">效率／替代</td><td class="en">Efficiency / substitution</td><td class="zh">發票、文件、排程、L1 客服</td><td class="en">invoices, documents, scheduling, L1 support</td><td class="zh">單件成本、偏轉率、FTE 避免</td><td class="en">unit cost, deflection, FTE avoided</td><td>6–18 months</td><td>6–18 months</td></tr>
+          <tr><td class="zh">品質／風控</td><td class="en">Quality / risk</td><td class="zh">缺陷、反欺詐、合規抽檢</td><td class="en">defects, fraud, compliance sampling</td><td class="zh">錯誤成本、漏檢損失</td><td class="en">error cost, miss cost</td><td>12–24 months</td><td>12–24 months</td></tr>
+          <tr><td class="zh">產能放大</td><td class="en">Capacity lift</td><td class="zh">Copilot、研發輔助</td><td class="en">copilots, engineering assist</td><td class="zh">有效產出／人，採用率＞60%</td><td class="en">accepted output per person; adoption &gt;60%</td><td class="zh">6–12 個月打平座位費</td><td class="en">6–12 months to cover seat cost</td></tr>
+          <tr><td class="zh">收入</td><td class="en">Revenue</td><td class="zh">定價、推薦、銷售週期</td><td class="en">pricing, recommendations, sales cycle</td><td class="zh">對照組毛利</td><td class="en">gross margin vs control</td><td>12–24 months</td><td>12–24 months</td></tr>
+          <tr><td class="zh">平台</td><td class="en">Platform</td><td class="zh">資料平台、模型閘道</td><td class="en">data platform, model gateway</td><td class="zh">NPV、單位工作流成本下降</td><td class="en">NPV; falling cost per workflow</td><td class="zh">更長，不當年回收</td><td class="en">longer; not a same-year payback</td></tr>
+        </tbody>
+      </table>
+      <p class="zh">Deloitte 觀察過：ROI 領先企業裡約 86% 會對生成式 AI 和 agentic AI 用不同框架與時間窗。Agent 若按 Copilot 的 90 天打平來砍預算，會系統性殺對的專案。</p>
+      <p class="en">Deloitte has observed that about 86% of AI ROI leaders use different frameworks and time windows for generative versus agentic AI. If you kill agent programmes on a copilot-style 90-day payback, you will systematically kill the right projects.</p>
+      <p class="zh"><strong>Agent 多一個判斷式。</strong>McKinsey 把「值不值得讓 agent 做」收成：</p>
+      <p class="en"><strong>Agents get one extra test.</strong> McKinsey compresses “is the agent worth it?” to:</p>
+      <div class="formula">P(success) &gt; T_verify / T_do</div>
+      <p class="zh">人做 2 小時、核對 6 分鐘，比值約 5%。Agent 只要超過約 5% 的次數做對，淨效益就可以為正——前提是核對真的只要 6 分鐘，而且失敗代價已被算進 V_adjusted。任務定義不清、核對變成重做，這個不等式立刻翻轉。</p>
+      <p class="en">If a person needs two hours to do the work and six minutes to verify it, the ratio is about 5%. The agent only needs to succeed a bit more than five times in a hundred to be net positive — provided verification really is six minutes and failure costs are already inside V_adjusted. If the task is undefined and verification becomes rework, the inequality flips immediately.</p>
+
+      <h3 class="zh">6.6 三層儀表板</h3>
+      <h3 class="en">6.6 A three-layer dashboard</h3>
+      <div class="grid-2">
+        <div>
+          <h4 class="zh">層 A｜採用（必要但不充分）</h4>
+          <h4 class="en">Layer A · Adoption (necessary, not sufficient)</h4>
+          <p class="zh">週活躍、任務覆蓋率、採用率是否過 60%（Copilot 類低於此，總帳通常打不平）</p>
+          <p class="en">Weekly actives, task coverage, whether adoption clears 60% (below that, copilot-class tools rarely break even in aggregate)</p>
+        </div>
+        <div>
+          <h4 class="zh">層 B｜工作流（決定要不要擴）</h4>
+          <h4 class="en">Layer B · Workflow (decides whether to scale)</h4>
+          <p class="zh">單件完成成本、一次通過率、覆寫率、週期、偏轉率、成本／成功件</p>
+          <p class="en">Cost per accepted unit, first-pass yield, override rate, cycle time, deflection, cost per successful job</p>
+        </div>
+      </div>
+      <h4 class="zh">層 C｜帳本（決定要不要加碼）</h4>
+      <h4 class="en">Layer C · The books (decides whether to add capital)</h4>
+      <p class="zh">避開成本、未招募 FTE、可歸因收入、回收期、對 EBIT 的貢獻。McKinsey 的現實是：層 A 已經很亮，層 C 幾乎不動。量測系統的目標，就是強迫每一個要擴規模的專案從 A 走到 C。層 B 週更，層 C 月更。過了 18 個月層 B 仍無穩定改善，結構有問題，不是再換一個模型能修的。</p>
+      <p class="en">Avoided cost, FTEs not hired, attributable revenue, payback, EBIT contribution. McKinsey’s reality is that Layer A is already bright and Layer C barely moves. The point of the measurement system is to force every scale candidate from A to C. Refresh B weekly and C monthly. If Layer B is still flat after 18 months, the problem is structural; another model will not fix it.</p>
+    </section>
+
+    <section id="s7">
+      <h2 class="zh">7. 90 天起步方法與例子</h2>
+      <h2 class="en">7. A 90-day start and a worked example</h2>
+      <p class="zh">一條工作流跑通，比開二十個試點有用。</p>
+      <p class="en">One finished workflow is worth more than twenty pilots.</p>
+      <ol class="steps">
+        <li class="zh"><strong>第 0 週｜選題。</strong>只選「件數夠、基線在、單件有價、例外可定義」的流程。例如：每月 &gt;1,000 件的 L1 工單、應付憑證、合約初審、程式碼 review。</li>
+        <li class="en"><strong>Week 0 · Pick the job.</strong> Choose a flow with enough volume, an existing baseline, a priced unit, and defined exceptions. Examples: L1 tickets above 1,000 a month, AP invoices, first-pass contract review, code review.</li>
+        <li class="zh"><strong>第 1–2 週｜鎖基線與成功定義。</strong>寫成一句話：「把 X 的單件全負載成本從 a 降到 b，一次通過率從 p1 升到 p2，回收期不超過 n 個月。」業務負責人簽字。</li>
+        <li class="en"><strong>Weeks 1–2 · Lock baseline and success.</strong> One sentence: “Move fully loaded unit cost of X from a to b, first-pass yield from p1 to p2, payback inside n months.” The business owner signs it.</li>
+        <li class="zh"><strong>第 3–4 週｜把成本打到這條流上。</strong>推論、人審、集成工時、平台分攤都掛同一張成本中心。</li>
+        <li class="en"><strong>Weeks 3–4 · Put cost on that flow.</strong> Inference, human review, integration hours and platform allocation all sit on one cost centre.</li>
+        <li class="zh"><strong>第 5–12 週｜只看被接受的產出。</strong>每週看完成件數、單件成本、覆寫原因前五名、失敗重跑成本。覆寫原因是產品待辦，不是註腳。</li>
+        <li class="en"><strong>Weeks 5–12 · Watch accepted output only.</strong> Weekly: completions, unit cost, top five override reasons, rerun cost. Override reasons are product backlog, not footnotes.</li>
+        <li class="zh"><strong>第 13 週｜三種決策。</strong>擴：單件成本連續下降且採用穩定。停：層 B 無改善。改範圍：模型沒問題，卡在資料、權限或 SOP——不應被記成「AI 沒 ROI」。</li>
+        <li class="en"><strong>Week 13 · Three decisions.</strong> Scale: unit cost is falling and adoption is stable. Stop: Layer B is flat. Rescope: the model is fine and the bind is data, permissions or SOP — that is not “AI has no ROI.”</li>
+      </ol>
+
+      <h3 class="zh">客服偏轉的數字例子</h3>
+      <h3 class="en">Worked example: support deflection</h3>
+      <p class="zh">基線：人工關單一件 $9.50，月 20,000 件。上線後：agent 月費與推論 $32,000，偏轉 18,000 件，剩下 2,000 件仍走人工；被偏轉件中 12% 因錯誤回流，回流按人工件計。</p>
+      <p class="en">Baseline: $9.50 to close a ticket by hand, 20,000 tickets a month. After go-live: agent platform and inference cost $32,000 a month, 18,000 tickets deflected, 2,000 still handled by people; 12% of deflected tickets bounce back and are costed as human tickets.</p>
+      <div class="formula">effective deflections = 18,000 × (1 − 0.12) = 15,840
+V = 15,840 × 9.50 = $150,480
+C = 32,000 + 2,000 × 9.50 = $51,000
+monthly net = $99,480
+ROI = 99,480 / 51,000 ≈ 195%</div>
+      <p class="zh">若把回流當成「已成功」、或不算人審，數字會再漂亮一截，也會在第二個季度被拆穿。把回流、覆寫、重跑留在公式裡，帳才能跟瑞銀說的「規模化」對上：只有單件經濟穩定優於基線的流程，才配從 19% 那條藍線往上走。</p>
+      <p class="en">Treat bounce-backs as successes, or omit human review, and the number looks better — until the second quarter. Keep bounce-backs, overrides and reruns in the formula and the ledger matches what UBS means by “scale”: only workflows whose unit economics beat the baseline on a sustained basis deserve to climb the 19% blue line.</p>
+      <div class="note zh">最小可行量測，三個數字就夠起步：（1）這條工作流現在單件花多少錢；（2）上 AI 後，被接受的單件花多少錢；（3）差額有沒有進費用或產能，而不是停在「大家覺得比較快」。這三個數字能按月更新，ROI 就不清晰不了；更新不了，問題通常不在公式，而在還沒選到一條真正能量的工作流。</div>
+      <div class="note en">A minimum viable measurement is three numbers: (1) what a unit costs on this workflow today; (2) what an accepted unit costs after AI; (3) whether the gap hits expenses or capacity, rather than stopping at “people feel faster.” If those three numbers can be refreshed monthly, ROI is no longer unclear. If they cannot, the problem is usually not the formula. It is that you have not yet chosen a workflow that can be measured.</div>
+    </section>
+
+    <section id="s9">
+      <h2 class="zh">8. 深入：ROI 量測方法論</h2>
+      <h2 class="en">8. Deep dive: ROI measurement methods</h2>
+      <p class="lede zh">上一章講的是「單位要改成被接受的完成件」。這一章往下走一層：量測是一套<strong>歸因系統</strong>，公式只是最後一行。瑞銀把 ROI 列第一；Futurum 2026 也寫過：財務衝擊已取代生產力成為第一成功指標，但真正能量出財務衝擊的企業大約只有 5–8%。缺口不在模型，在量測基礎設施。</p>
+      <p class="lede en">The previous chapter changed the unit to an accepted completed job. This chapter goes one layer down: measurement is an <strong>attribution system</strong>; the formula is only the last line. UBS ranks unclear ROI first. Futurum’s 2026 survey likewise found that direct financial impact has replaced productivity as the top success metric — yet only about 5–8% of firms can actually measure financial impact. The gap is infrastructure, not models.</p>
+
+      <h3 class="zh">8.1 先分清三個被混在一起的問題</h3>
+      <h3 class="en">8.1 Separate three questions that are usually mashed together</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">問題</th><th class="en">Question</th>
+            <th class="zh">真正在問</th><th class="en">What it really asks</th>
+            <th class="zh">答錯會長什麼樣</th><th class="en">What a wrong answer looks like</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="zh">有沒有改善？</td><td class="en">Did it improve?</td>
+            <td class="zh">指標動了沒有</td><td class="en">Did a metric move?</td>
+            <td class="zh">把旺季、新人、流程改版全算給 AI</td><td class="en">Seasonality, new hires and process rewrites all credited to AI</td>
+          </tr>
+          <tr>
+            <td class="zh">是不是 AI 造成的？</td><td class="en">Did AI cause it?</td>
+            <td class="zh">反事實：沒上 AI 會怎樣</td><td class="en">The counterfactual: what if AI had not shipped?</td>
+            <td class="zh">上線前後對比當成因果</td><td class="en">Before/after treated as causation</td>
+          </tr>
+          <tr>
+            <td class="zh">值不值得繼續燒錢？</td><td class="en">Is more spend justified?</td>
+            <td class="zh">V−C 是否穩定為正，能否規模化</td><td class="en">Is V−C stably positive, and can it scale?</td>
+            <td class="zh">用試點蜜月期的數字去批三年預算</td><td class="en">A honeymoon pilot used to approve a three-year budget</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="zh">多數「AI ROI 報告」停在第一問。董事會要的是第二問加第三問。McKinsey 2026 的落差正是這樣來的：80% 說個人更有效率（第一問的自我感覺），37% 能接到 EBIT（第三問的弱版本），6% 能把 5% 以上 EBIT 歸因於 AI（第二問加第三問都過關）。</p>
+      <p class="en">Most “AI ROI reports” stop at the first question. Boards need the second plus the third. That is the McKinsey 2026 split: 80% say they personally became more productive (self-report on question 1), 37% can attach any EBIT effect (a weak version of question 3), and 6% can attribute 5% or more of EBIT to AI (questions 2 and 3 both pass).</p>
+
+      <h3 class="zh">8.2 五層量測棧：從模型健康接到損益表</h3>
+      <h3 class="en">8.2 A five-layer stack: from model health to the P&amp;L</h3>
+      <p class="zh">McKinsey 把「從模型到帳本」收成五層。每一層有主人、有指標、有否決權。上層動了、下層沒動，就是假 ROI。</p>
+      <p class="en">McKinsey compresses the path from model to books into five layers. Each layer has an owner, metrics and a veto. If an upper layer moves and the layer below does not, the ROI is fake.</p>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">層</th><th class="en">Layer</th>
+            <th class="zh">回答什麼</th><th class="en">Answers</th>
+            <th class="zh">典型指標</th><th class="en">Typical metrics</th>
+            <th class="zh">誰負責</th><th class="en">Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>L1</td><td>L1</td>
+            <td class="zh">它會做對嗎</td><td class="en">Does it do the job correctly?</td>
+            <td class="zh">任務成功率、幻覺、檢索命中、延遲</td><td class="en">Task success, hallucination, retrieval hit rate, latency</td>
+            <td class="zh">技術</td><td class="en">Technology</td>
+          </tr>
+          <tr>
+            <td>L2</td><td>L2</td>
+            <td class="zh">有人在用嗎</td><td class="en">Is anyone using it?</td>
+            <td class="zh">週活躍、覆蓋率、自願 vs 強制</td><td class="en">Weekly actives, coverage, voluntary vs mandated use</td>
+            <td class="zh">產品／變革</td><td class="en">Product / change</td>
+          </tr>
+          <tr>
+            <td>L3</td><td>L3</td>
+            <td class="zh">這條工作做快／做好了嗎</td><td class="en">Is the work faster or better?</td>
+            <td class="zh">週期、一次通過、重工、偏轉、單件成本</td><td class="en">Cycle time, first-pass yield, rework, deflection, unit cost</td>
+            <td class="zh">業務流程主人</td><td class="en">Process owner</td>
+          </tr>
+          <tr>
+            <td>L4</td><td>L4</td>
+            <td class="zh">做成一件划算嗎</td><td class="en">Does one finished job pay?</td>
+            <td class="zh">全負載成本／被接受件、人審占比</td><td class="en">Fully loaded cost per accepted job; human-review share</td>
+            <td class="zh">財務＋業務</td><td class="en">Finance + business</td>
+          </tr>
+          <tr>
+            <td>L5</td><td>L5</td>
+            <td class="zh">公司賺到了嗎</td><td class="en">Did the firm earn it?</td>
+            <td class="zh">可歸因成本下降、收入、EBIT、回收期</td><td class="en">Attributed cost-out, revenue, EBIT, payback</td>
+            <td class="zh">GM／CFO</td><td class="en">GM / CFO</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul>
+        <li class="zh"><strong>L1 綠不能作為加碼理由。</strong>模型準確和公司賺錢是兩件事。</li>
+        <li class="en"><strong>A green L1 is not a reason to add capital.</strong> Model accuracy and corporate profit are different questions.</li>
+        <li class="zh"><strong>L2 低於門檻，L3–L5 不准報正 ROI。</strong>Copilot 類採用率長期低於約 60%，總帳通常打不平。</li>
+        <li class="en"><strong>If L2 is below the gate, L3–L5 may not report positive ROI.</strong> Copilot-class tools that sit below ~60% adoption rarely break even in aggregate.</li>
+        <li class="zh"><strong>只有 L4 連續為正，才允許談 L5 的「規模化」。 </strong>這正好對上瑞銀藍線：跨多個業務單位、穩定在生產。</li>
+        <li class="en"><strong>Only a run of positive L4 allows talk of L5 “scale.”</strong> That matches the UBS blue line: production at scale across multiple units.</li>
+      </ul>
+      <p class="zh">Agent 還要多看 Forrester 的「行動落差」：洞察到動作之間隔了幾個人、幾個系統。落差越大，L1 再好也走不到 L4——價值死在最後一哩的人工搬運。</p>
+      <p class="en">Agents also need Forrester’s “action gap”: how many people and systems sit between an insight and an action. The larger the gap, the less a green L1 can reach L4 — value dies in the last mile of manual carrying.</p>
+
+      <h3 class="zh">8.3 歸因：怎麼證明「是 AI，不是別的」</h3>
+      <h3 class="en">8.3 Attribution: proving it was AI, not something else</h3>
+      <p class="zh">沒有歸因，ROI 只是相關。企業能用的方法按嚴謹度排：</p>
+      <p class="en">Without attribution, ROI is only correlation. Methods available to a firm, ranked by rigour:</p>
+
+      <h4 class="zh">1. 隨機或準實驗（金標準）</h4>
+      <h4 class="en">1. Randomised or quasi-experiments (gold standard)</h4>
+      <p class="zh">能切流量就切。同一工作流、同一時期，AI 組 vs 對照組。銷售轉換、推薦、定價、客服話術都適用。對照組必須是「本來也可以上、只是沒上」的單位，不是「技術上根本用不上」的單位，否則是選擇偏差。實驗要夠長，蓋過學習曲線：前兩週常是負的，第 6–10 週才穩。</p>
+      <p class="en">Split traffic when you can. Same workflow, same period, AI versus control. Conversion, recommendations, pricing and support scripts all fit. The control group must be units that <em>could</em> have adopted and did not — not units that were technically ineligible, or you have selection bias. Run long enough to cover the learning curve: the first two weeks are often negative; weeks 6–10 are when the series usually settles.</p>
+
+      <h4 class="zh">2. 分批上線／雙差（次佳）</h4>
+      <h4 class="en">2. Staged rollout / difference-in-differences (next best)</h4>
+      <p class="zh">不能隨機時：先上 A 團隊、後上 B 團隊，看 A 相對 B 的增量，而不是看 A 相對自己的過去。</p>
+      <p class="en">When you cannot randomise: ship to team A first and team B later. Measure A’s lift relative to B, not A relative to its own past.</p>
+      <div class="formula">Δ_DiD = (Y_A,after − Y_A,before) − (Y_B,after − Y_B,before)</div>
+      <p class="zh">同時發生的旺季、系統升級、考核改版，會在第二項被減掉。這是多數內部流程唯一做得到的「準因果」。</p>
+      <p class="en">Seasonality, system upgrades and incentive changes that hit both groups drop out in the second term. For most internal processes this is the only quasi-causal design that is actually available.</p>
+
+      <h4 class="zh">3. 關掉測試（因果的壓力測試）</h4>
+      <h4 class="en">3. A turn-it-off test (a stress test for causation)</h4>
+      <p class="zh">工程類特別有用：同一 repo、同一流程，停用 AI 7 天。若週期、重工率明顯回退，才能說前面的改善不是同時發生的人事或流程變化。這是少數能在董事會上防守的現場實驗。</p>
+      <p class="en">Especially useful in engineering: same repo, same flow, AI off for seven days. If cycle time and rework regress, the earlier gain was not a concurrent staffing or process change. This is one of the few field tests that survives a board challenge.</p>
+
+      <h4 class="zh">4. 保守歸屬（無法實驗時的下限）</h4>
+      <h4 class="en">4. Conservative attribution (a lower bound when you cannot experiment)</h4>
+      <p class="zh">產出是人機混成時，預設歸人，不歸 AI。只有能追溯到「這一筆是模型生成且未被實質改寫」的部分，才進 AI 的 V。有團隊在程式碼層做行級歸屬：不確定的行直接排除。數字會變小，但過得了審計。反過來說，現況是大量 AI 輔助產出在系統裡仍只記成「員工完成」，AI 的貢獻從未進入既有績效數字。這不是哲學問題，是帳簿設計問題。</p>
+      <p class="en">When output is mixed human-and-model, default credit to the person, not the model. Only the slice that can be traced as “generated by the model and not materially rewritten” enters AI’s V. Some teams attribute at line level in code and drop uncertain lines. The number gets smaller; it also survives audit. In the opposite direction, a large share of AI-assisted output is still recorded only as “completed by an employee,” so the software never enters the performance numbers the firm already keeps. That is a ledger-design problem, not a philosophical one.</p>
+      <div class="callout zh">歸因協議要在上線前寫死：這條流的改善，多少算 AI、多少算同時上線的知識庫／排班系統。事後補協議，歸因一定死。</div>
+      <div class="callout en">Write the attribution protocol before go-live: how much of this flow’s improvement is AI, and how much is the knowledge base or roster system that shipped in the same window. Retrofitting the protocol after launch is where attribution dies.</div>
+
+      <h3 class="zh">8.4 單位經濟：不要再從 token 起算</h3>
+      <h3 class="en">8.4 Unit economics: stop starting from the token</h3>
+      <p class="zh">Token 是帳單，不是價值。銀行客服類 agent 的可變成本裡，token 常常只占 20–25%，人審與風控占 70–75%。用降 token 單價當「AI 變便宜了」，會看錯槓桿。</p>
+      <p class="en">Tokens are the bill, not the value. In banking-style support agents, tokens often make up only 20–25% of variable run cost; human review and risk make up 70–75%. Treating a lower token price as “AI got cheaper” looks at the wrong lever.</p>
+      <div class="formula">c_unit = (c_inference + c_platform + c_orchestration + c_review + c_rerun + c_incident) / N_accepted
+
+unit net = v_unit − c_unit</div>
+      <p class="zh">v_unit 是這件工作在舊流程裡的全負載成本，或它帶來的可歸因毛利，兩者取你真的能防守的那個。</p>
+      <p class="en">v_unit is either the fully loaded cost of the old process for that job, or the attributable gross margin the job creates — whichever number you can actually defend.</p>
+      <p class="zh">三個會讓 c_unit 看起來很美、實際為負的陷阱：</p>
+      <p class="en">Three traps that make c_unit look beautiful and actually negative:</p>
+      <ol>
+        <li class="zh"><strong>分母用「生成件」不是「接受件」。 </strong>生成 100、改寫 50，成功率是 50%，不是 100%。</li>
+        <li class="en"><strong>The denominator is generations, not acceptances.</strong> Generate 100, rewrite 50, and success is 50%, not 100%.</li>
+        <li class="zh"><strong>分子漏人審。</strong>一次 $0.30 的呼叫，若換來 $90／小時員工 20 分鐘清理，清理成本 $30。</li>
+        <li class="en"><strong>Human review is missing from the numerator.</strong> A $0.30 call that creates 20 minutes of cleanup at $90/hour costs $30 in cleanup.</li>
+        <li class="zh"><strong>重試與 refinement loop 沒進成本。</strong>第一次便宜、第五次才過關，單件成本要按第五次算。</li>
+        <li class="en"><strong>Retries and refinement loops are omitted.</strong> Cheap on the first pass, accepted on the fifth: unit cost is the fifth pass.</li>
+      </ol>
+      <p class="zh">Agent 能不能上，McKinsey 收成一個事前篩選式：</p>
+      <p class="en">Whether an agent should even be pointed at a task, McKinsey compresses to a screen used <em>before</em> spend:</p>
+      <div class="formula">P(success) &gt; T_verify / T_do</div>
+      <p class="zh">人做 2 小時、核對 6 分鐘，門檻約 5%。核對若變成重做，T_verify → T_do，門檻變成接近 100%，多數 agent 會瞬間不經濟。量測系統必須分開記：T_verify（抽檢、點頭、小改）、T_rework（實質重寫）、T_escalate（踢回專家）。只有第一種能撐起「低成功率也划算」的不等式。後兩種要進失敗成本。</p>
+      <p class="en">Two hours of human work and six minutes of verification sets a bar of about 5%. If verification becomes rework, T_verify → T_do and the bar approaches 100%; most agents become uneconomic on the spot. The measurement system must log three clocks separately: T_verify (spot-check, nod, small edit), T_rework (substantive rewrite), T_escalate (hand-up to an expert). Only the first clock can support “low success still pays.” The other two belong in the cost of failure.</p>
+
+      <h3 class="zh">8.5 工時這筆帳：生產力洩漏</h3>
+      <h3 class="en">8.5 The hours ledger: productivity leakage</h3>
+      <p class="zh">「省下 30 分鐘」要同時通過四道閘，才能進 V：</p>
+      <p class="en">“Saved 30 minutes” enters V only after four gates:</p>
+      <ol>
+        <li class="zh">來源是系統時鐘，不是問卷。問卷會系統性高估。</li>
+        <li class="en">The clock is the system clock, not a survey. Surveys overstate systematically.</li>
+        <li class="zh">時鐘打在「接受輸出」，不是「模型吐字」。簡報 3 分鐘生成、3 小時修理，淨工時是加的。</li>
+        <li class="en">The clock stops at accepted output, not at first generation. A deck written in three minutes and repaired for three hours added hours, it did not save them.</li>
+        <li class="zh">省下的時間有去處：多處理件數、少加班、少外包，或轉去做事先指定的高價值工作。停在「比較從容」是福利，不是 ROI。</li>
+        <li class="en">The hours go somewhere: more units, less overtime, fewer contractors, or a named higher-value task specified in advance. “People feel less rushed” is a benefit. It is not ROI.</li>
+        <li class="zh">採用率夠高，總帳才加總。10% 的人真的省到、90% 的人座位費空轉，團隊層 ROI 仍可以是負的。</li>
+        <li class="en">Adoption is high enough that the team total still adds. If 10% of people truly save time and 90% of seats sit idle, team-level ROI can still be negative.</li>
+      </ol>
+      <div class="formula">V_hours = Δt_accepted × w_loaded × n_active × ρ_redeployed</div>
+      <p class="zh">ρ_redeployed 是「省下時間實際轉成產能或少付出去的錢」的比例，通常 0.3–0.7，不要默認 1.0。這一個係數，就能讓很多 Copilot 商業論證從「必賺」變成「看採用與再配置」。</p>
+      <p class="en">ρ_redeployed is the share of saved time that actually becomes capacity or cash not paid out. It usually sits between 0.3 and 0.7; do not default it to 1.0. That one coefficient turns many copilot business cases from “must profit” into “depends on adoption and redeployment.”</p>
+      <p class="zh">工程場景可用更硬的列，再加上關掉 7 天是否回退：</p>
+      <p class="en">Engineering can use a harder line, plus the seven-day off test:</p>
+      <div class="formula">Δ_PR = (Δ cycle time × engineer loaded rate) − token cost − review cost</div>
+
+      <h3 class="zh">8.6 四種價值，對應四套量法</h3>
+      <h3 class="en">8.6 Four kinds of value, four measurement kits</h3>
+      <p class="zh">不要用同一張試算表打所有專案。</p>
+      <p class="en">Do not put every project on the same spreadsheet.</p>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">類型</th><th class="en">Type</th>
+            <th class="zh">量法</th><th class="en">How to measure</th>
+            <th class="zh">注意</th><th class="en">Watch-outs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="zh">A. 替代／偏轉</td><td class="en">A. Substitution / deflection</td>
+            <td class="zh">N_有效 = N_偏轉 × (1 − r_回流)，對上舊單件全負載成本</td>
+            <td class="en">N_effective = N_deflected × (1 − r_bounce), versus old fully loaded unit cost</td>
+            <td class="zh">回流、升級、監管抽樣全部留在公式裡。客服、應付、L1 IT、文件初審走這套。</td>
+            <td class="en">Keep bounce-backs, escalations and compliance samples in the formula. Support, AP, L1 IT and first-pass documents belong here.</td>
+          </tr>
+          <tr>
+            <td class="zh">B. 品質／風險</td><td class="en">B. Quality / risk</td>
+            <td class="zh">V_risk = Δp × L × Q（期望損失下降）</td>
+            <td class="en">V_risk = Δp × L × Q (drop in expected loss)</td>
+            <td class="zh">Δp 要有對照或標註集。L 極大時微小 Δp 也有意義；92%→94% 可能毫無財務意義。不該用 90 天打平來殺。</td>
+            <td class="en">Δp needs a control or a labelled set. A tiny Δp matters if L is huge; 92%→94% may be financially empty. Do not kill these on a 90-day payback.</td>
+          </tr>
+          <tr>
+            <td class="zh">C. 收入</td><td class="en">C. Revenue</td>
+            <td class="zh">轉換、客單、週期、留存，必須有反事實</td>
+            <td class="en">Conversion, basket, cycle, retention — only with a counterfactual</td>
+            <td class="zh">沒有對照組就不要報「AI 帶來的營收」。行銷／銷售最常拿到預算，卻最難孤立財務衝擊。</td>
+            <td class="en">No control group, no “revenue from AI.” Sales and marketing take the most budget and are the hardest places to isolate financial impact.</td>
+          </tr>
+          <tr>
+            <td class="zh">D. 產能擴張／新市場</td><td class="en">D. Capacity / new markets</td>
+            <td class="zh">新覆蓋客群的貢獻毛利 − 服務這群人的全負載 agent＋人審成本</td>
+            <td class="en">Contribution margin of newly served segments − fully loaded agent + review cost of serving them</td>
+            <td class="zh">這是新的單位經濟，不是舊流程打折。走 NPV／TEI，不進「本季省了多少人」。</td>
+            <td class="en">This is new unit economics, not a discount on the old process. Use NPV / TEI; do not park it on “heads saved this quarter.”</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="zh">Forrester TEI 把平台級、跨三年的投資拆成效益、成本、彈性、風險，並做風險調整現值。適合平台決策；不適合一條工單流的月度營運檢討。兩套帳並存，不要互相取代。</p>
+      <p class="en">Forrester TEI splits a multi-year platform bet into benefits, costs, flexibility and risk, then risk-adjusts present value. That kit fits platform decisions. It does not fit the monthly operating review of one ticket flow. Keep both ledgers. Do not let one replace the other.</p>
+
+      <h3 class="zh">8.7 Agent 的四個核心營運 KPI</h3>
+      <h3 class="en">8.7 Four operating KPIs for agents</h3>
+      <p class="zh">能週更、能拿來做擴／停／改範圍的，其實只要四個：</p>
+      <p class="en">Four numbers are enough to refresh weekly and to decide scale / stop / rescope:</p>
+      <ol>
+        <li class="zh"><strong>端到端任務成功率</strong> — 整段工作被接受、人不用重做的比例</li>
+        <li class="en"><strong>End-to-end task success</strong> — the share of whole jobs accepted without a person redoing them</li>
+        <li class="zh"><strong>人工介入率</strong> — 中途插手的頻率；連續下降是 agent 成熟的最清楚信號</li>
+        <li class="en"><strong>Human intervention rate</strong> — how often a person steps in mid-task; a falling series is the cleanest maturity signal</li>
+        <li class="zh"><strong>完成一件的全負載成本</strong> — 對上舊流程全負載成本，不是對上零</li>
+        <li class="en"><strong>Fully loaded cost per completed job</strong> — versus the old fully loaded cost, not versus zero</li>
+        <li class="zh"><strong>觸發到核可完結的耗時</strong> — 含等待與升級，不含「模型思考了幾秒」</li>
+        <li class="en"><strong>Elapsed time from trigger to accepted close</strong> — including waits and escalations, excluding “the model thought for three seconds”</li>
+      </ol>
+      <p class="zh">L1 的 token、延遲、單步準確率是診斷指標，不是成功指標。再加兩個組合指標，專門抓「看起來忙、其實不賺錢」：</p>
+      <p class="en">Token use, latency and step-level accuracy at L1 are diagnostic. They are not success metrics. Add two composite measures that catch “busy but not earning”:</p>
+      <div class="formula">action gap = systems still crossed after the insight + people still required to act
+
+decision throughput = decisions accelerated or automated by AI / all decisions in that flow</div>
+      <p class="zh">行動落差不降，成功率再高也只是多產報告。決策吞吐不上，說明 AI 還掛在流程外面——這正是瑞銀「集成複雜度上升」在量測上的對應物。</p>
+      <p class="en">If the action gap does not fall, a high success rate is just more reports. If decision throughput does not rise, AI is still hanging off the side of the process — the measurement twin of UBS’s rising integration-complexity score.</p>
+
+      <h3 class="zh">8.8 量測基礎設施：沒有痕跡，就沒有歸因</h3>
+      <h3 class="en">8.8 Measurement infrastructure: no trace, no attribution</h3>
+      <p class="zh">ROI 算不出來，經常是因為系統只記了「誰花了多少 token」，沒記「這次花錢是為了完成哪一件工作、結果如何」。最低可行儀器：</p>
+      <p class="en">ROI is often uncomputable because the system logged “who spent how many tokens” and never logged “what job that spend was for, and how it ended.” Minimum viable instrumentation:</p>
+      <ul>
+        <li class="zh">一次 <span class="mono">run</span> = 為同一個目標串起來的所有 session</li>
+        <li class="en">One <span class="mono">run</span> = every session chained to the same objective</li>
+        <li class="zh">一個 <span class="mono">work item</span> = 一個可判定成敗的目標（關一張單、審一份合約、合併一個 PR）</li>
+        <li class="en">One <span class="mono">work item</span> = one objective that can be judged pass/fail (close a ticket, review a contract, merge a PR)</li>
+        <li class="zh">每個 work item 綁：目標、結果（接受／覆寫／回流／升級）、模型花費、主人、系統</li>
+        <li class="en">Each work item carries: objective, outcome (accept / override / bounce / escalate), model spend, owner, system</li>
+        <li class="zh">覆寫原因做成枚舉，進產品待辦，不當註腳</li>
+        <li class="en">Override reasons are an enum that feeds the product backlog, not a footnote</li>
+      </ul>
+      <p class="zh">有團隊把 agent trace 做成語意層：先把 session 合成 run，再切成 work item，才能從「消耗了什麼」轉成「做成了什麼」。沒有這層，財務只能看到帳單。資料欄位不必一次完美。先求 70% 的 run 能掛上 work item，再提高。等完美分攤才開始量，等於永遠不量。</p>
+      <p class="en">Some teams build a semantic layer on agent traces: sessions roll up into runs, runs split into work items, and spend can move from “what was consumed” to “what was finished.” Without that layer, finance only sees a bill. Fields do not have to be perfect on day one. Get 70% of runs onto a work item, then raise the share. Waiting for perfect allocation before measuring is a decision never to measure.</p>
+
+      <h3 class="zh">8.9 組合管理：ROI 是門檻，不是海報</h3>
+      <h3 class="en">8.9 Portfolio rules: ROI is a gate, not a poster</h3>
+      <p class="zh">單條工作流算得清楚之後，企業層要用投資組合規則，否則會回到紅線那種「每年重寫更樂觀的預測」。</p>
+      <p class="en">Once a single workflow can be priced, the enterprise needs portfolio rules. Otherwise the maroon line comes back: a more optimistic forecast rewritten every year.</p>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">決策</th><th class="en">Decision</th>
+            <th class="zh">條件</th><th class="en">Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="zh">繼續試點</td><td class="en">Keep piloting</td>
+            <td class="zh">L1 達標，L2 在爬，L3 有基線</td>
+            <td class="en">L1 clears the bar, L2 is climbing, L3 has a baseline</td>
+          </tr>
+          <tr>
+            <td class="zh">准許擴一個相鄰流程</td><td class="en">Scale to one adjacent flow</td>
+            <td class="zh">L4 連續 8–12 週為正，採用穩定</td>
+            <td class="en">L4 positive for 8–12 straight weeks; adoption stable</td>
+          </tr>
+          <tr>
+            <td class="zh">准許跨單位複製</td><td class="en">Copy across units</td>
+            <td class="zh">L4 在第二個單位複現，合規路徑已標準化</td>
+            <td class="en">L4 reproduces in a second unit; the compliance path is now standard work</td>
+          </tr>
+          <tr>
+            <td class="zh">停</td><td class="en">Stop</td>
+            <td class="zh">18 個月 L3／L4 無改善，或人審占比降不下來</td>
+            <td class="en">L3 / L4 flat for 18 months, or the review share will not fall</td>
+          </tr>
+          <tr>
+            <td class="zh">改範圍</td><td class="en">Rescope</td>
+            <td class="zh">模型沒問題，卡在資料、權限、SOP——記成集成／資料障礙，不記成「AI 沒 ROI」</td>
+            <td class="en">The model is fine; the bind is data, permissions or SOP — log it as integration / data, not as “AI has no ROI”</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="zh">季度業務檢討只帶一本證據包：效益、全負載成本、歸因方法、反事實、風險調整。Token 帳單可以附錄，不能當封面。平台投資（資料湖、閘道、評估平台）用 NPV，回收期看它讓多少條工作流的 c_unit 下降，而不是自己單獨「賺了多少」。否則平台永遠像成本中心，工作流永遠像沒有地基。</p>
+      <p class="en">The quarterly review carries one evidence pack: benefits, fully loaded cost, attribution method, counterfactual, risk adjustment. The token bill can be an appendix. It cannot be the cover. Platform spend (lake, gateway, eval harness) uses NPV; payback is how many workflows it lowers c_unit for, not whether the platform “earned” on its own. Otherwise the platform looks like a cost centre forever and every workflow looks unfounded.</p>
+
+      <h3 class="zh">8.10 七個會讓數字好看、帳卻假的算法</h3>
+      <h3 class="en">8.10 Seven calculations that look good and keep the books false</h3>
+      <ol>
+        <li class="zh">用生成時間當省時，不用接受時間。</li>
+        <li class="en">Treat generation time as time saved, not time-to-accepted-output.</li>
+        <li class="zh">採用率 15%，卻按 100% 座位乘上去。</li>
+        <li class="en">Adoption is 15%, but the model multiplies as if every seat were live.</li>
+        <li class="zh">把回流件算進成功率。</li>
+        <li class="en">Count bounced-back jobs as successes.</li>
+        <li class="zh">人審、重試、事故不進 C。</li>
+        <li class="en">Leave review, retries and incidents out of C.</li>
+        <li class="zh">上線前後對比，不減同期其他變化。</li>
+        <li class="en">Use before/after with no control for concurrent change.</li>
+        <li class="zh">策略型新市場效益，用當季省人的口徑來辯護。</li>
+        <li class="en">Defend a new-market strategy case with “heads saved this quarter.”</li>
+        <li class="zh">問卷裡的「我更有效率」直接乘上全負載年薪，寫進 EBIT。</li>
+        <li class="en">Multiply a survey score of “I feel more productive” by fully loaded salary and write it into EBIT.</li>
+      </ol>
+      <div class="warn zh">這七項裡占三項以上，報告就還停留在瑞銀說的「預期」，不是「實際」。</div>
+      <div class="warn en">Trip three or more of these and the report is still on UBS’s maroon line — expectation — not on the blue line of what actually shipped.</div>
+
+      <h3 class="zh">8.11 收束成三句可執行的話</h3>
+      <h3 class="en">8.11 Three executable sentences</h3>
+      <ol class="steps">
+        <li class="zh"><strong>先選一條能量的工作流</strong>，鎖基線，定義「被接受的完成件」。選不了，就還在試點，不要談組合 ROI。</li>
+        <li class="en"><strong>Pick one measurable workflow first</strong>, lock a baseline, define an accepted completion. If you cannot, you are still in pilot. Do not talk portfolio ROI.</li>
+        <li class="zh"><strong>歸因方法寫在上線前</strong>：能實驗就實驗，不能就雙差或關掉測試；人機混成預設歸人。</li>
+        <li class="en"><strong>Write the attribution method before go-live</strong>: experiment if you can; otherwise difference-in-differences or a turn-off test. Mixed human–model output defaults to the human.</li>
+        <li class="zh"><strong>週看四個流程 KPI，月看單件淨益，季看能不能複製。</strong>只有單件經濟穩定優於基線、且能跨單位複製的流程，才配從那條 19% 的藍線往上走。</li>
+        <li class="en"><strong>Watch four flow KPIs weekly, unit net monthly, replicability quarterly.</strong> Only workflows whose unit economics beat the baseline on a sustained basis, and that can be copied across units, deserve to climb the 19% blue line.</li>
+      </ol>
+    </section>
+
+    <section id="s10">
+      <h2 class="zh">9. ROI 的長期追蹤機制</h2>
+      <h2 class="en">9. Long-term ROI tracking</h2>
+      <p class="lede zh">上線後 90 天算出第一個正數，只證明這條流<strong>曾經</strong>划算。長期問題是另一個：效益會漂移、成本會爬升、採用會回落、基線會過期。沒有固定節奏與證據包，企業會回到瑞銀紅線——每年重寫更樂觀的預測，而藍線幾乎不動。</p>
+      <p class="lede en">A positive number at day 90 only proves the flow <strong>once</strong> paid. The long-term problem is different: benefits drift, costs climb, adoption slumps, baselines expire. Without a fixed cadence and an evidence pack, the firm returns to UBS’s maroon line — a more optimistic forecast rewritten every year — while the blue line barely moves.</p>
+      <div class="callout zh">McKinsey 的說法是把 AI「當一筆被管理的投資」來跑：固定檢討節奏、明確關卡、單一證據包同時追效益與全負載成本。能過第二年續約的專案，通常已經用同一份格式連報四個季度；只在第十個月臨時做一頁的，多半續不到。</div>
+      <div class="callout en">McKinsey’s phrase is to run AI as a managed investment: a fixed review cadence, explicit gates, and one evidence pack that tracks benefits and fully loaded cost together. Programmes that clear a year-two renewal have usually filed four quarters in the same format. Programmes that send one ad-hoc deck in month ten usually do not renew.</div>
+
+      <h3 class="zh">9.1 為什麼 ROI 不能當時點數字</h3>
+      <h3 class="en">9.1 Why ROI cannot be a point-in-time number</h3>
+      <p class="zh">長期追蹤要同時看三條曲線，而不是一個百分比：</p>
+      <p class="en">Long-term tracking watches three curves at once, not one percentage:</p>
+      <ol>
+        <li class="zh"><strong>J 曲線。</strong>DORA 2026 在工程場景寫得很清楚：上線初期生產力先掉，再爬過舊基線。前 4–8 週的負數常常是結構性的（人在學工具、流程在改），不是專案失敗。用蜜月期或用低谷當「最終 ROI」，都會判錯。</li>
+        <li class="en"><strong>The J-curve.</strong> DORA 2026 is blunt in engineering: productivity dips after rollout, then climbs past the old baseline. A negative print in weeks 4–8 is often structural (people learning the tool, the process being rewritten), not project failure. Treating the honeymoon or the trough as “final ROI” both mis-grade the case.</li>
+        <li class="zh"><strong>衰減曲線。</strong>IDC 對 agent 的判斷是：不主動調校，績效會隨情境改變與例外堆積而下降。人審占比回升、回流率爬升、採用率從 70% 掉到 40%，單件淨益會在沒有任何人「關掉專案」的情況下由正轉負。</li>
+        <li class="en"><strong>The decay curve.</strong> IDC’s read on agents is that, without active tuning, performance degrades as context shifts and edge cases pile up. Review share rises, bounce-backs climb, adoption falls from 70% to 40%, and unit net can flip from positive to negative with nobody “turning the project off.”</li>
+        <li class="zh"><strong>成本曲線。</strong>模型每 3–6 個月換一代；token 單價可能下降，但 context 變長、refinement loop 變多、人審若沒同步下降，全負載 c_unit 仍可能上升。帳單變便宜 ≠ 做成一件變便宜。</li>
+        <li class="en"><strong>The cost curve.</strong> Frontier models move every three to six months. Token unit prices may fall, but longer context, more refinement loops and a review share that does not fall can still lift fully loaded c_unit. A cheaper bill is not a cheaper completed job.</li>
+      </ol>
+      <p class="zh">所以長期機制的單位不是「這個專案的 ROI 是多少」，而是「這條工作流此刻在曲線的哪一段、斜率是正是負、要不要關卡放行」。</p>
+      <p class="en">So the unit of the long-term system is not “what is this project’s ROI.” It is “where on the curve is this workflow now, is the slope up or down, and does the gate open.”</p>
+
+      <h3 class="zh">9.2 三種漂移，對應三套警報</h3>
+      <h3 class="en">9.2 Three kinds of drift, three kinds of alarm</h3>
+      <p class="zh">ROI 變差很少是單一原因。比較有用的分類是：</p>
+      <p class="en">ROI rarely worsens for one reason. A more useful split is:</p>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">漂移</th><th class="en">Drift</th>
+            <th class="zh">發生什麼</th><th class="en">What changes</th>
+            <th class="zh">量什麼</th><th class="en">What to watch</th>
+            <th class="zh">動作</th><th class="en">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="zh">系統漂移</td><td class="en">System drift</td>
+            <td class="zh">模型、資料、工具、權限、上游系統變了</td>
+            <td class="en">The model, data, tools, permissions or upstream systems moved</td>
+            <td class="zh">成功率、幻覺、新鮮度錯誤、工具選錯率</td>
+            <td class="en">Success rate, hallucination, freshness errors, wrong-tool rate</td>
+            <td class="zh">評估集重跑、金標資料更新、必要時回滾</td>
+            <td class="en">Rerun the eval set, refresh gold labels, roll back if needed</td>
+          </tr>
+          <tr>
+            <td class="zh">作業漂移</td><td class="en">Work drift</td>
+            <td class="zh">件量結構、例外、SOP、人審習慣變了</td>
+            <td class="en">Mix, exceptions, SOPs or review habits moved</td>
+            <td class="zh">回流、升級、人審占比、行動落差</td>
+            <td class="en">Bounce-backs, escalations, review share, action gap</td>
+            <td class="zh">改流程與權限，而不是先換模型</td>
+            <td class="en">Fix the process and permissions before swapping the model</td>
+          </tr>
+          <tr>
+            <td class="zh">量測漂移</td><td class="en">Measurement drift</td>
+            <td class="zh">成功定義、分母、基線還停在去年</td>
+            <td class="en">The success definition, denominator or baseline is last year’s</td>
+            <td class="zh">儀表板仍全綠，帳本卻對不上</td>
+            <td class="en">The dashboard stays green while the books do not reconcile</td>
+            <td class="zh">重估基線與歸因協議</td>
+            <td class="en">Re-estimate the baseline and the attribution protocol</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="zh">第三種最危險：儀表板很準，只是在量「昨天的好」。例如去年把「生成一份摘要」當成功，今年業務要的是「摘要被接受並寫進工單」。不重估基線，ROI 會一直很好看，現場已經沒人用。</p>
+      <p class="en">The third kind is the most dangerous: the dashboard is accurate and simply measuring yesterday’s definition of good. Last year success was “a summary was generated.” This year the business needs “the summary was accepted and written into the ticket.” Leave the baseline alone and ROI stays pretty while the floor is empty.</p>
+      <p class="zh">資料新鮮度是系統漂移裡常被漏掉的一塊。對 agent 而言，「檢索到正確段落」和「答案在評估當下仍為真」不是同一件事。有排程的刷新／TTL，往往比「快取放了幾天」更能約束過期錯誤。長期 ROI 儀表板因此要分開記：推理錯誤 vs 過期錯誤。後者要用刷新策略修，不是再換一個更大的模型。</p>
+      <p class="en">Freshness is the piece of system drift most often missed. For an agent, “retrieved the right passage” and “the answer is still true at evaluation time” are different events. Scheduled refresh / TTL usually bounds staleness better than “how old is the cache.” A long-run ROI board should therefore split reasoning errors from freshness errors. The second is a refresh-policy fix, not a reason to buy a larger model.</p>
+
+      <h3 class="zh">9.3 節奏：週／月／季／年各看什麼</h3>
+      <h3 class="en">9.3 Cadence: what to watch weekly, monthly, quarterly, yearly</h3>
+      <p class="zh">節奏本身就是機制。沒有固定日期與固定格式，長期追蹤會退化成「出事前做一頁」。</p>
+      <p class="en">The cadence is the mechanism. Without a fixed date and a fixed format, long-run tracking decays into “a slide after something breaks.”</p>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">頻率</th><th class="en">Cadence</th>
+            <th class="zh">場合</th><th class="en">Forum</th>
+            <th class="zh">只看這些</th><th class="en">Only these</th>
+            <th class="zh">決策</th><th class="en">Decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="zh">週</td><td class="en">Weekly</td>
+            <td class="zh">營運站會，建議不超過 15 分鐘</td>
+            <td class="en">Ops stand-up, cap at about 15 minutes</td>
+            <td class="zh">四個流程 KPI：成功率、介入率、單件成本、完結耗時；外加 SLO、漂移警報、回滾次數</td>
+            <td class="en">Four flow KPIs: success, intervention, unit cost, time-to-accept; plus SLOs, drift alerts, rollbacks</td>
+            <td class="zh">修、回滾、升級人審，不談預算</td>
+            <td class="en">Patch, roll back, raise review — no budget talk</td>
+          </tr>
+          <tr>
+            <td class="zh">月</td><td class="en">Monthly</td>
+            <td class="zh">流程主人＋財務夥伴</td>
+            <td class="en">Process owner + finance partner</td>
+            <td class="zh">單件淨益、採用率、ρ 再配置、人審占比、token vs 人審成本結構</td>
+            <td class="en">Unit net, adoption, ρ redeployed, review share, token vs review cost mix</td>
+            <td class="zh">這條流本月是賺、平、虧</td>
+            <td class="en">This flow made, broke even, or lost money this month</td>
+          </tr>
+          <tr>
+            <td class="zh">季</td><td class="en">Quarterly</td>
+            <td class="zh">QBR，同一份證據包</td>
+            <td class="en">QBR, same evidence pack every time</td>
+            <td class="zh">L4 連續是否為正、能否在第二單位複現、模型世代是否該換、合規路徑是否已標準化</td>
+            <td class="en">Is L4 still a run of positives, can it reproduce in a second unit, is the model generation stale, is compliance now standard work</td>
+            <td class="zh">擴／停／改範圍／換模型</td>
+            <td class="en">Scale / stop / rescope / swap the model</td>
+          </tr>
+          <tr>
+            <td class="zh">年</td><td class="en">Yearly</td>
+            <td class="zh">組合與資本配置</td>
+            <td class="en">Portfolio and capital allocation</td>
+            <td class="zh">哪些流貢獻了可歸因 EBIT、平台 NPV、淘汰清單、下一年基線重估</td>
+            <td class="en">Which flows contributed attributable EBIT, platform NPV, the retirement list, next year’s baseline reset</td>
+            <td class="zh">續約、加碼、整組退役</td>
+            <td class="en">Renew, add capital, or retire the set</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="zh">週會不談預算，季會不談單次故障。層次混在同一場，長期機制一定肥大然後停掉。</p>
+      <p class="en">The weekly meeting does not discuss budget. The quarterly meeting does not discuss a single incident. Mix the layers in one room and the long-run system bloats, then dies.</p>
+
+      <h3 class="zh">9.4 證據包：每季同一份，不另做簡報</h3>
+      <h3 class="en">9.4 The evidence pack: the same file every quarter, no extra deck</h3>
+      <p class="zh">長期追蹤能活下來，是因為格式不變、財務在上線前就簽過這份格式。建議每條在產工作流固定八頁（或八個區塊），多一頁就不准進 QBR：</p>
+      <p class="en">Long-run tracking survives because the format does not change, and finance signed that format before go-live. Eight blocks per production workflow is enough. A ninth page does not enter the QBR:</p>
+      <ol>
+        <li class="zh">工作流定義與「被接受的完成件」</li>
+        <li class="en">Workflow definition and the accepted completion</li>
+        <li class="zh">現行基線（日期、樣本期、重估紀錄）</li>
+        <li class="en">Current baseline (date, sample window, re-estimation log)</li>
+        <li class="zh">歸因方法（實驗／雙差／關掉測試／保守歸屬）與本季有無破壞</li>
+        <li class="en">Attribution method (experiment / DiD / turn-off / conservative) and whether it broke this quarter</li>
+        <li class="zh">L1–L4 走勢圖，至少連續兩個季度</li>
+        <li class="en">L1–L4 trend charts, at least two straight quarters</li>
+        <li class="zh">全負載成本拆解：推論／平台／人審／重跑／事故</li>
+        <li class="en">Fully loaded cost split: inference / platform / review / rerun / incident</li>
+        <li class="zh">效益：有效件數 × 單件價值，扣回流與覆寫</li>
+        <li class="en">Benefit: effective units × unit value, net of bounce-backs and overrides</li>
+        <li class="zh">漂移與回滾日誌</li>
+        <li class="en">Drift and rollback log</li>
+        <li class="zh">本季關卡建議：擴／停／改／換型，附觸發閾值</li>
+        <li class="en">This quarter’s gate call: scale / stop / rescope / swap, with the trigger thresholds</li>
+      </ol>
+      <p class="zh">財務夥伴在分發前改草稿，不在會上第一次看到數字。Token 帳單只進附錄。</p>
+      <p class="en">The finance partner edits the draft before it circulates. Nobody sees the numbers for the first time in the room. The token bill lives in an appendix.</p>
+
+      <h3 class="zh">9.5 基線要過期，而且要寫死何時過期</h3>
+      <h3 class="en">9.5 Baselines expire — write down when</h3>
+      <p class="zh">長期最常見的造假不是虛報效益，而是<strong>拿著兩年前的人工單件成本當永遠的對照</strong>。舊流程自己也會變：人變熟、系統升級、件量結構改變。不重估基線，AI 的「省下」會越來越大，直到有人去現場看。</p>
+      <p class="en">The most common long-run fraud is not inflated benefits. It is <strong>keeping a two-year-old manual unit cost as the forever control</strong>. The old process also moves: people get faster, systems upgrade, the mix shifts. Leave the baseline alone and AI’s “savings” swell until someone walks the floor.</p>
+      <p class="zh">建議規則：</p>
+      <p class="en">A workable rule:</p>
+      <ul>
+        <li class="zh">每 12 個月強制重估一次基線，用最近 4–8 週無 AI（或對照組）的營運數據。</li>
+        <li class="en">Force a baseline reset every 12 months from the latest 4–8 weeks of no-AI or control-group operations data.</li>
+        <li class="zh"> SOP、核心系統、件量結構或編制任一發生重大變化，立刻重估，不等年審。</li>
+        <li class="en">Reset immediately — do not wait for the annual review — if the SOP, core system, mix or headcount changes in a material way.</li>
+        <li class="zh">重估後，歷史季度不回溯粉飾；只從本季起用新基線。舊季保留「當時基線下的 ROI」，並在圖上標註斷點。</li>
+        <li class="en">After a reset, do not restyle historic quarters. Use the new baseline from this quarter on. Keep prior quarters as “ROI under the then-baseline” and mark the break on the chart.</li>
+        <li class="zh">若已無乾淨對照組（全面鋪開），改用「關掉 7–14 天」或「抽一個單位暫停」做局部反事實，寫進證據包。</li>
+        <li class="en">If there is no clean control left (full rollout), use a 7–14 day turn-off or park one unit as a local counterfactual, and write that into the pack.</li>
+      </ul>
+
+      <h3 class="zh">9.6 生命週期：改善或退役都是健康結果</h3>
+      <h3 class="en">9.6 Lifecycle: improve or retire — both are healthy</h3>
+      <p class="zh">Microsoft 對 agent 生命週期的寫法可直接搬到 ROI：每個在產系統都要有主人、有監測計畫、有「改善或退役」的路徑。退役不是失敗，是把錢和注意力從不再賺錢的流上拿開。</p>
+      <p class="en">Microsoft’s agent-lifecycle language maps onto ROI directly: every production system needs an owner, a monitoring plan, and a path to improve or retire. Retirement is not failure. It is taking money and attention off a flow that no longer earns its place.</p>
+      <p class="zh">預先公布觸發閾值，避免季會變成談判：</p>
+      <p class="en">Publish trigger thresholds in advance so the quarterly meeting does not become a negotiation:</p>
+      <table>
+        <thead>
+          <tr>
+            <th class="zh">信號</th><th class="en">Signal</th>
+            <th class="zh">建議閾值（可依行業改，但要事先鎖定）</th><th class="en">Suggested trigger (tune by industry, lock in advance)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="zh">採用回落</td><td class="en">Adoption slump</td>
+            <td class="zh">月活環比下降 ≥ 30%，或低於 60% 座位門檻連續兩個月</td>
+            <td class="en">MoM active-use down ≥ 30%, or below the 60% seat gate for two months</td>
+          </tr>
+          <tr>
+            <td class="zh">品質回退</td><td class="en">Quality regression</td>
+            <td class="zh">端到端成功率低於上線時承諾 8–10 個百分點，且連續 4 週</td>
+            <td class="en">End-to-end success 8–10 points below the go-live promise, four weeks running</td>
+          </tr>
+          <tr>
+            <td class="zh">經濟翻轉</td><td class="en">Economics flip</td>
+            <td class="zh">單件淨益連續 8 週 ≤ 0，或人審成本占比升回 &gt; 70% 且降不下來</td>
+            <td class="en">Unit net ≤ 0 for eight weeks, or review cost share back above 70% and stuck</td>
+          </tr>
+          <tr>
+            <td class="zh">新鮮度／漂移</td><td class="en">Freshness / drift</td>
+            <td class="zh">過期錯誤或評估集分數跌破 SLO，未在約定 SLA 內修復</td>
+            <td class="en">Freshness errors or eval-set scores breach the SLO and are not fixed inside the agreed SLA</td>
+          </tr>
+          <tr>
+            <td class="zh">模型世代過期</td><td class="en">Stale model generation</td>
+            <td class="zh">兩代未評估是否換型（約 6–12 個月）</td>
+            <td class="en">Two generations without a swap evaluation (about 6–12 months)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="zh">觸發後只有三條路：限期改善（寫死下一個季會要看到的 L4 數字）、縮小範圍、退役。沒有「再觀察一個季度但不改任何東西」。</p>
+      <p class="en">Once triggered there are only three roads: a time-boxed fix (the L4 number the next QBR must see, written down), a narrower scope, or retirement. There is no “watch another quarter and change nothing.”</p>
+
+      <h3 class="zh">9.7 線上評估：讓品質進入與成本同一條時間軸</h3>
+      <h3 class="en">9.7 Online evaluation: put quality on the same clock as cost</h3>
+      <p class="zh">長期 ROI 斷掉，經常是因為成本是即時的（帳單每月來），品質是事後的（有人抱怨才知道）。機制上要讓品質也變成週頻信號：</p>
+      <p class="en">Long-run ROI snaps when cost is live (the bill arrives monthly) and quality is retrospective (someone complains). The mechanism is to make quality a weekly signal too:</p>
+      <ul>
+        <li class="zh">生產 trace 抽樣評分（正確、完成目標、是否選對工具），不增加使用者延遲。</li>
+        <li class="en">Score a sample of production traces (correctness, goal completion, right tool) without adding user-facing latency.</li>
+        <li class="zh">金標集版本化：每次改提示、知識源、權限、模型，先過回歸再放量。</li>
+        <li class="en">Version the gold set. Any change to prompts, knowledge sources, permissions or the model runs regression before traffic rises.</li>
+        <li class="zh">金絲雀＋自動回滾：品質或單件成本突破 SLO，先縮流量，再進週會。</li>
+        <li class="en">Canary plus automatic rollback: if quality or unit cost breaches the SLO, cut traffic first, then take it to the weekly meeting.</li>
+        <li class="zh">儀表板同時顯示：SLO 達成率、單件成本、漂移警報、回滾事件。缺任何一項，週會只會看到「好像比較快」。</li>
+        <li class="en">The board shows SLO attainment, unit cost, drift alerts and rollback events together. Drop any one and the weekly meeting only sees “it feels faster.”</li>
+      </ul>
+      <p class="zh">這層是 L1 的長期維生系統。它不取代 L4，但沒有它，L4 的惡化會來得又急又晚——發現時已經虧了兩個季度。</p>
+      <p class="en">This layer is L1’s long-run life support. It does not replace L4. Without it, L4 deteriorates both suddenly and late — two quarters of losses before anyone looks.</p>
+
+      <h3 class="zh">9.8 採用與能力也要縱向追，否則工時帳會偷樂</h3>
+      <h3 class="en">9.8 Track adoption and skill on a longitudinal clock, or the hours ledger will cheat</h3>
+      <p class="zh">ρ 再配置係數不是常數。工具換代、人員輪替、培訓只做一次，流利度會在約六個月內明顯衰退，採用率從高峰回落。長期要把三條序列對在同一張圖上：</p>
+      <p class="en">The ρ redeployment coefficient is not a constant. Tools turn over, people rotate, one-off training decays — fluency can drop sharply inside about six months, and adoption falls off its peak. Over the long run, plot three series on one chart:</p>
+      <ol>
+        <li class="zh">採用率（週活躍／有權限人數）</li>
+        <li class="en">Adoption (weekly actives / entitled seats)</li>
+        <li class="zh">能力代理指標（評測、抽檢通過、自願使用 vs 強制）</li>
+        <li class="en">A skill proxy (evals, sampled pass rate, voluntary vs mandated use)</li>
+        <li class="zh">單件淨益</li>
+        <li class="en">Unit net</li>
+      </ol>
+      <p class="zh">採用掉、能力掉、淨益卻仍很好看——幾乎可以確定是基線沒重估，或 ρ 還鎖在 1.0。這張圖是給變革與培訓團隊的，不是給模型團隊的。</p>
+      <p class="en">Adoption down, skill down, unit net still pretty — the baseline has almost certainly not been reset, or ρ is still locked at 1.0. That chart belongs to change and training, not to the model team.</p>
+
+      <h3 class="zh">9.9 組合層的長期帳：從「專案 ROI」改成「流的貢獻」</h3>
+      <h3 class="en">9.9 The portfolio ledger: from “project ROI” to “contribution by flow”</h3>
+      <p class="zh">一年以上，不要再加總五十個專案的百分比。改看：</p>
+      <p class="en">Past the first year, stop adding fifty project percentages together. Watch:</p>
+      <ul>
+        <li class="zh"><strong>在產流數量與健康度</strong>：多少條 L4 連續為正、多少條觸發退役。</li>
+        <li class="en"><strong>Count and health of production flows</strong>: how many have a run of positive L4, how many have tripped retirement.</li>
+        <li class="zh"><strong>可歸因 EBIT 的集中度</strong>：是不是 80% 的帳面效益來自兩條流。過度集中就要問複製，而不是再開二十個試點。</li>
+        <li class="en"><strong>Concentration of attributable EBIT</strong>: do two flows produce 80% of booked benefit? If so, the question is replication, not twenty new pilots.</li>
+        <li class="zh"><strong>平台對 c_unit 的貢獻</strong>：閘道、評估、資料路徑讓多少條流的單件成本下降。平台自己不報「ROI 300%」，它報「使 N 條流的 c_unit 中位數下降 x%」。</li>
+        <li class="en"><strong>The platform’s contribution to c_unit</strong>: how many flows saw unit cost fall because of the gateway, the eval harness, the data path. The platform does not report “ROI 300%.” It reports “median c_unit down x% across N flows.”</li>
+        <li class="zh"><strong>決策吞吐</strong>：有多少核心決策已經被加速或自動完成。這是「AI 是否還掛在流程外面」的長期指標，對上瑞銀的集成複雜度。</li>
+        <li class="en"><strong>Decision throughput</strong>: how many core decisions are now accelerated or automated. That is the long-run test of whether AI still hangs off the side of the process — the twin of UBS’s integration-complexity score.</li>
+      </ul>
+      <p class="zh">年度資本配置用這四項，而不是用「我們今年做了多少個 AI 專案」。</p>
+      <p class="en">Annual capital allocation uses these four, not “how many AI projects we ran this year.”</p>
+
+      <h3 class="zh">9.10 一套最小可運轉的長期機制</h3>
+      <h3 class="en">9.10 A minimum mechanism that actually runs</h3>
+      <p class="zh">不必先建一個 AI 卓越中心才能開始追。五件事齊了就可以進入「可續約」狀態：</p>
+      <p class="en">You do not need an AI centre of excellence before you start tracking. Five pieces are enough to enter a “renewable” state:</p>
+      <ol class="steps">
+        <li class="zh">每條在產流有具名主人與財務夥伴，上線前簽過證據包格式。</li>
+        <li class="en">Every production flow has a named owner and a finance partner, and both signed the evidence-pack format before go-live.</li>
+        <li class="zh">週看四個 KPI＋SLO／回滾；月看單件淨益；季看同一份八區塊證據包。</li>
+        <li class="en">Four KPIs plus SLO / rollback weekly; unit net monthly; the same eight-block pack quarterly.</li>
+        <li class="zh">基線 12 個月必重估，重大變化即重估；歷史季不回溯粉飾。</li>
+        <li class="en">Baselines reset every 12 months, and immediately on a material change; historic quarters are not restyled.</li>
+        <li class="zh">生產抽樣評估＋金標回歸＋可回滾；品質與成本在同一時間軸。</li>
+        <li class="en">Sampled production evals, gold-set regression and a rollback path; quality and cost on the same clock.</li>
+        <li class="zh">觸發閾值事先鎖定；觸發後只有改善、縮範圍、退役三條路。</li>
+        <li class="en">Trigger thresholds locked in advance; once tripped, the only roads are fix, narrow, or retire.</li>
+      </ol>
+      <div class="note zh">這五件事對上瑞銀那張圖的讀法是：紅線是「沒有節奏的預期」；藍線是「有節奏、有關卡、有效益包的實際」。長期追蹤機制的工作，就是不讓已經算出來的單件淨益在無人看守的情況下靜靜翻轉。</div>
+      <div class="note en">Read against the UBS chart: the maroon line is expectation without a cadence; the blue line is actuals with a cadence, gates and an evidence pack. The job of long-term tracking is to stop a once-positive unit net from flipping in silence because nobody was watching.</div>
+    </section>
+
+    <section id="s8">
+      <h2 class="zh">10. 資料來源與閱讀提示</h2>
+      <h2 class="en">10. Sources and reading notes</h2>
+      <p class="zh">本文件是對一次連續討論的整理，不是瑞銀原文的逐字翻譯。圖表與 19%／43%／84%／5% 等核心數字來自 UBS Evidence Lab／Arend Kapteyn 2026 年 5 月客戶報告，並經華爾街見聞、BigGo Finance 及 X 上的公開轉述交叉核對。六大障礙占比以該報告媒體整理為準。ROI 基礎、深入方法論與長期追蹤機制結合了同一討論中引用的 McKinsey（2026 State of AI；五層量測棧與「被管理的投資」節奏；agent 的 P(success) 判斷式、全負載工作流成本與季模型檢討）、Deloitte、Bain、IBM、Alteryx、Teradata、Futurum、Forrester TEI／行動落差、DORA 的 J 曲線、IDC 的持續優化、Microsoft 的 agent 生命週期，以及線上評估／回滾實務，用於解釋「為什麼算不清」「應該怎麼算」以及「算出來之後如何看守」，不代表瑞銀官方量測框架。</p>
+      <p class="en">This file is a compiled briefing of one conversation, not a verbatim translation of the UBS note. The chart and the core figures (19%, 43%, 84%, 5%) come from the UBS Evidence Lab / Arend Kapteyn client note of May 2026, cross-checked against public write-ups from WallstreetCN, BigGo Finance and posts on X. Barrier shares follow those public summaries of the note. The ROI chapters draw on public 2025–2026 research cited in the same conversation — McKinsey (State of AI 2026; the five-layer stack and “managed investment” cadence; the agent P(success) test, fully loaded workflow cost and quarterly model review), Deloitte, Bain, IBM, Alteryx, Teradata, Futurum, Forrester TEI / the action gap, DORA’s J-curve, IDC’s continuous optimisation, Microsoft’s agent lifecycle, and online-eval / rollback practice — to explain why ROI is unclear, how to measure it, and how to keep watching it. It is not UBS’s official measurement framework.</p>
+      <p class="zh">完整原文在瑞銀客戶報告裡；公開能讀到的，主要是媒體對該報告的轉述。若需對外引用具體百分比，建議回對最新一波 UBS Evidence Lab 原表，因半年度調查會改寫數字。</p>
+      <p class="en">The full original sits in the UBS client note. What is public is mainly secondary summary. If you need to quote a specific percentage externally, go back to the latest UBS Evidence Lab tables; a semi-annual survey will revise the numbers.</p>
+    </section>
+
+    <footer>
+      <p class="zh">整理日期：2026-09-15 · 雙語簡報稿 · 供內部討論，不構成投資建議。</p>
+      <p class="en">Compiled 15 September 2026 · Bilingual briefing · For internal discussion; not investment advice.</p>
+    </footer>
   </div>
   <script>
-  (async () => {
-    const urls = ['data/a.txt', 'data/b.txt'];
-    const parts = await Promise.all(urls.map(u => fetch(u).then(r => {
-      if (!r.ok) throw new Error(u + ' ' + r.status);
-      return r.text();
-    })));
-    const b64 = parts.join('').replace(/\s+/g,'');
-    const bin = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
-    const html = await new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
-    document.open();
-    document.write(html);
-    document.close();
-  })().catch(err => {
-    document.getElementById('boot').innerHTML =
-      '<p><strong>簡報正在補上傳 payload。</strong></p>' +
-      '<p>Briefing payload is still being uploaded. This is not a GitHub Pages outage.</p>' +
-      '<div class="err"><code>' + String(err).replace(/[<>&]/g,'') + '</code><br><br>' +
-      '若幾分鐘後仍失敗，請到 <a href="https://github.com/Ming050823/ai-roi-briefing">repository</a> 用 Add file → Upload files 把本機 <code>ubs-ai-adoption-report.html</code> 改名為 <code>index.html</code> 上傳覆蓋。</div>';
-  });
+    function setLang(lang) {
+      document.body.setAttribute('data-lang', lang);
+      document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+      document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    }
   </script>
 </body>
 </html>
