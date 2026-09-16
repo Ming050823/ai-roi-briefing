@@ -2,22 +2,23 @@
 
 中英雙語簡報：瑞銀 Evidence Lab 企業 AI 落地落差、六大障礙、ROI 量測與長期追蹤。
 
-Public repository: https://github.com/Ming050823/ai-roi-briefing
+Live: https://ming050823.github.io/ai-roi-briefing/
+Repo: https://github.com/Ming050823/ai-roi-briefing
 
-## 發布到 GitHub Pages（約 30 秒）
+## 為什麼會看到 Error: 404
 
-1. 開啟 **Settings → Pages**：https://github.com/Ming050823/ai-roi-briefing/settings/pages
-2. **Source** 選 Deploy from a branch
-3. Branch 選 `main`，Folder 選 `/ (root)`
-4. Save，等 1–2 分鐘
-5. 分享這條連結：**https://ming050823.github.io/ai-roi-briefing/**
+GitHub Pages **已經有開**，根目錄的 `index.html` 也存在。目前這個 `index.html` 是 loader，會再去拉 `data/a.txt` 與 `data/b.txt`。這兩個檔還沒上傳完，瀏覽器就會顯示 404 / unable to expand。
 
-## Publish to GitHub Pages
+## 一分鐘修法（推薦，一定有效）
 
-1. Open Settings → Pages
-2. Source = Deploy from a branch
-3. Branch `main` / folder `/ (root)`
-4. Save, wait 1–2 minutes
-5. Share https://ming050823.github.io/ai-roi-briefing/
+1. 打開：https://github.com/Ming050823/ai-roi-briefing/upload/main
+2. 把完整報告 HTML 改名為 **`index.html`**，拖進頁面（覆蓋舊的 loader）
+3. Commit to `main`
+4. 等 30–60 秒，強制整理打開 https://ming050823.github.io/ai-roi-briefing/
 
-If the live page is still a stub, upload the full `index.html` via Add file → Upload files and commit to `main`.
+不要再用拆檔 loader。把完整 HTML 直接當 `index.html` 就行。
+
+## Pages 設定
+
+Settings → Pages → Source = Deploy from a branch → `main` / `/ (root)`
+https://github.com/Ming050823/ai-roi-briefing/settings/pages
