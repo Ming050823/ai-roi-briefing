@@ -4,13 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UBS Evidence Lab｜企業 AI 落地落差、六大障礙與 ROI 量測</title>
-  <style>html,body{margin:0;background:#f6f3ec;color:#12202c;font-family:Georgia,serif}.boot{padding:48px 24px;text-align:center;line-height:1.7}</style>
+  <style>
+    :root { --ink:#12202c; --paper:#f6f3ec; --accent:#8b1e2d; --line:#d7e0e8; }
+    html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,"Noto Serif TC",serif;}
+    .boot{max-width:720px;margin:12vh auto;padding:0 24px;line-height:1.7;text-align:center;}
+    a{color:#1c4b6e;}
+    .err{margin-top:18px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;text-align:left;font-size:14px;}
+    code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;}
+  </style>
 </head>
 <body>
-  <p class="boot" id="boot">載入簡報中… Loading briefing…</p>
+  <div class="boot" id="boot">
+    <p>載入簡報中… Loading briefing…</p>
+  </div>
   <script>
   (async () => {
-    const urls = Array.from({length: 8}, (_, i) => 'data/' + i + '.txt');
+    const urls = ['data/a.txt', 'data/b.txt'];
     const parts = await Promise.all(urls.map(u => fetch(u).then(r => {
       if (!r.ok) throw new Error(u + ' ' + r.status);
       return r.text();
@@ -23,7 +32,10 @@
     document.close();
   })().catch(err => {
     document.getElementById('boot').innerHTML =
-      '簡報正在補上傳。Briefing files are still uploading.<br><small>' + err + '</small>';
+      '<p><strong>簡報正在補上傳 payload。</strong></p>' +
+      '<p>Briefing payload is still being uploaded. This is not a GitHub Pages outage.</p>' +
+      '<div class="err"><code>' + String(err).replace(/[<>&]/g,'') + '</code><br><br>' +
+      '若幾分鐘後仍失敗，請到 <a href="https://github.com/Ming050823/ai-roi-briefing">repository</a> 用 Add file → Upload files 把本機 <code>ubs-ai-adoption-report.html</code> 改名為 <code>index.html</code> 上傳覆蓋。</div>';
   });
   </script>
 </body>
