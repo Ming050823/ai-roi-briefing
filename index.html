@@ -10,7 +10,7 @@
   <p class="boot" id="boot">載入簡報中… Loading briefing…</p>
   <script>
   (async () => {
-    const urls = ['data/0.txt','data/1.txt','data/2.txt','data/3.txt'];
+    const urls = Array.from({length: 8}, (_, i) => 'data/' + i + '.txt');
     const parts = await Promise.all(urls.map(u => fetch(u).then(r => {
       if (!r.ok) throw new Error(u + ' ' + r.status);
       return r.text();
